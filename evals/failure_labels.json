@@ -1,0 +1,50 @@
+{
+  "_about": "Hand-labelled failures for error analysis. One entry per case_id; updated as we review cases. 'label' = WHAT went wrong (symptom). 'suspected_cause' = WHY (hypothesis until verified).",
+  "_label_set": {
+    "company_mismatch": "Retrieved chunks are from a different company's filing",
+    "year_mismatch": "Right company, wrong fiscal year / period",
+    "right_doc_wrong_page": "Right filing retrieved, but not the gold page"
+  },
+  "_hypotheses": {
+    "H1_chunk_lacks_context": "Chunks after the top of a page don't contain the company name, year or units, so the embedding can't link them to the right company. Status: suspected, not yet verified.",
+    "H2_embedding_model_weak": "all-MiniLM-L6-v2 is small and general-purpose: it matches topic ('capex', 'cash flow') well but is weak at telling entities apart (3M vs AMD, 2018 vs 2022), and reads only the first 256 tokens. Status: suspected, not yet verified."
+  },
+  "labels": {
+    "financebench_id_03029": {
+      "label": "company_mismatch",
+      "suspected_cause": ["H1_chunk_lacks_context", "H2_embedding_model_weak"],
+      "notes": "Gold 3M_2018_10K. Got AmericanWaterWorks, 3M_2022_10K (right company, wrong year), MGM.",
+      "run": "20261121_231949_retriever_3_dev"
+    },
+    "financebench_id_00807": {
+      "label": "company_mismatch",
+      "suspected_cause": ["H1_chunk_lacks_context", "H2_embedding_model_weak"],
+      "notes": "Gold 3M_2023Q2_10Q. Got BestBuy, PepsiCo, PepsiCo.",
+      "run": "20261121_231949_retriever_3_dev"
+    },
+    "financebench_id_01319": {
+      "label": "company_mismatch",
+      "suspected_cause": ["H1_chunk_lacks_context", "H2_embedding_model_weak"],
+      "notes": "Gold AES_2022_10K. Got Amcor, Amcor, Activision.",
+      "run": "20261121_231949_retriever_3_dev"
+    },
+    "financebench_id_01226": {
+      "label": "company_mismatch",
+      "suspected_cause": ["H1_chunk_lacks_context", "H2_embedding_model_weak"],
+      "notes": "Gold 3M_2022_10K. Got 3M_2023Q2_10Q (right company, wrong period), AMD, AMD.",
+      "run": "20261121_231949_retriever_3_dev"
+    },
+    "financebench_id_07507": {
+      "label": "year_mismatch",
+      "suspected_cause": ["H2_embedding_model_weak"],
+      "notes": "Gold ADOBE_2016_10K. Got Adobe 2022, 2017, 2022. Company right, year wrong.",
+      "run": "20261121_231949_retriever_3_dev"
+    },
+    "financebench_id_00499": {
+      "label": "right_doc_wrong_page",
+      "suspected_cause": [],
+      "notes": "Gold 3M_2022_10K. Got Ulta, Ulta, then 3M_2022_10K at rank 3 but a different page. Cause not analysed yet.",
+      "run": "20261121_231949_retriever_3_dev"
+    }
+  }
+}

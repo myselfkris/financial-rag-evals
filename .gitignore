@@ -1,0 +1,10 @@
+# Secrets
+.env
+
+# Environment
+venv/
+__pycache__/
+*.pyc
+
+# Rebuildable vector index (rebuild with: python -m src.<retriever_module>)
+data/chroma_db/
