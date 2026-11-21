@@ -45,6 +45,20 @@
         "financebench_id_00941": {"label": "right_doc_wrong_page", "suspected_cause": ["H2_embedding_model_weak"], "notes": "Gold 3M_2023Q2_10Q. Right filing at rank 3, wrong page."},
         "financebench_id_02987": {"label": "right_doc_wrong_page", "suspected_cause": ["H2_embedding_model_weak"], "notes": "NEW failure. Multi-page question (2 gold pages). All 3 results from ACTIVISIONBLIZZARD_2019_10K, none a gold page."}
       }
+    },
+    "20261122_010852_retriever_6_bge_dev": {
+      "description": "H2 experiment: H1b chunks (identical text) embedded with BAAI/bge-base-en-v1.5 instead of all-MiniLM-L6-v2",
+      "changes_vs_H1b": "Fixed: 01226, 00941 (full), 02987, 04735 (partial). Broke: 00438. Partial drop: 07966, 06655. Recall 62.5% -> 67.5%, MRR 61.7% -> 77.5%, precision 48.3% -> 61.7%, misses 6 -> 3.",
+      "conclusion": "H2 SUPPORTED: the stronger model picks the right page within a filing more often. All 3 remaining misses are right_doc_wrong_page on judgement questions (capital-intensive? healthy liquidity? improving margin?) where the needed page (e.g. balance sheet) shares few words with the question.",
+      "latency_note": "Avg 1509 ms is distorted by a one-off 26.6 s model load on the first query. Median of the rest is ~179 ms.",
+      "labels": {
+        "financebench_id_00499": {"label": "right_doc_wrong_page", "suspected_cause": ["question_vocab_gap"], "notes": "'Is 3M capital-intensive based on FY2022?' Got 3M_2022_10K x2 (other pages) + 3M_2018. Needs capex + assets pages; question doesn't name them."},
+        "financebench_id_00807": {"label": "right_doc_wrong_page", "suspected_cause": ["question_vocab_gap"], "notes": "'Healthy liquidity based on quick ratio, Q2 FY2023?' All 3 from 3M_2023Q2_10Q, wrong pages. Needs the balance sheet; 'quick ratio' never appears on it."},
+        "financebench_id_00438": {"label": "right_doc_wrong_page", "suspected_cause": ["question_vocab_gap"], "notes": "NEW failure. 'Improving operating margin as of FY2022?' Got ADOBE_2022_10K (other page) + ADOBE_2015 x2."}
+      }
     }
+  },
+  "_hypotheses_new": {
+    "H3_question_vocab_gap": "Judgement questions ('is X capital-intensive?', 'healthy liquidity?') use words that don't appear on the page that answers them (a balance sheet never says 'quick ratio'). Status: suspected from the 3 H2 misses, not yet tested."
   }
 }

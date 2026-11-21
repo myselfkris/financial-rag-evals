@@ -1,0 +1,583 @@
+{
+  "run_id": "20261122_005215_retriever_5_page_header_dev",
+  "config": {
+    "retriever": "retriever_5_page_header",
+    "collection": "financebench_h1b_page_header",
+    "retriever_file_hash": "b204a17e45aa",
+    "split": "dev",
+    "split_file_hash": "0031fd8bb5e1",
+    "k": 3,
+    "n_cases": 20,
+    "judge_model": null,
+    "note": "H1b: company + page-top header"
+  },
+  "summary": {
+    "recall": 0.625,
+    "mrr": 0.6166666666666666,
+    "precision": 0.4833333333333334,
+    "complete_misses": 6,
+    "latency_ms_avg": 413.4750000000001
+  },
+  "cases": [
+    {
+      "case_id": "financebench_id_03029",
+      "question_type": "metrics-generated",
+      "question": "What is the FY2018 capital expenditure amount (in USD millions) for 3M? Give a response to the question by relying on the details shown in the cash flow statement.",
+      "gold_doc_name": "3M_2018_10K",
+      "retrieved": [
+        {
+          "chunk_id": "financebench_id_03029_ev_0_chunk_3",
+          "doc_name": "3M_2018_10K",
+          "doc_id": "financebench_id_03029_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_01858_ev_0_chunk_5",
+          "doc_name": "3M_2023Q2_10Q",
+          "doc_id": "financebench_id_01858_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_01858_ev_0_chunk_1",
+          "doc_name": "3M_2023Q2_10Q",
+          "doc_id": "financebench_id_01858_ev_0"
+        }
+      ],
+      "latency_ms": 730.0,
+      "recall": 1.0,
+      "mrr": 1.0,
+      "precision": 0.3333333333333333,
+      "failure_label": ""
+    },
+    {
+      "case_id": "financebench_id_04672",
+      "question_type": "metrics-generated",
+      "question": "Assume that you are a public equities analyst. Answer the following question by primarily using information that is shown in the balance sheet: what is the year end FY2018 net PPNE for 3M? Answer in USD billions.",
+      "gold_doc_name": "3M_2018_10K",
+      "retrieved": [
+        {
+          "chunk_id": "financebench_id_03029_ev_0_chunk_3",
+          "doc_name": "3M_2018_10K",
+          "doc_id": "financebench_id_03029_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_00499_ev_1_chunk_2",
+          "doc_name": "3M_2022_10K",
+          "doc_id": "financebench_id_00499_ev_1"
+        },
+        {
+          "chunk_id": "financebench_id_04672_ev_0_chunk_2",
+          "doc_name": "3M_2018_10K",
+          "doc_id": "financebench_id_04672_ev_0"
+        }
+      ],
+      "latency_ms": 343.3,
+      "recall": 1.0,
+      "mrr": 0.3333333333333333,
+      "precision": 0.3333333333333333,
+      "failure_label": ""
+    },
+    {
+      "case_id": "financebench_id_00499",
+      "question_type": "domain-relevant",
+      "question": "Is 3M a capital-intensive business based on FY2022 data?",
+      "gold_doc_name": "3M_2022_10K",
+      "retrieved": [
+        {
+          "chunk_id": "financebench_id_01858_ev_0_chunk_5",
+          "doc_name": "3M_2023Q2_10Q",
+          "doc_id": "financebench_id_01858_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_01858_ev_0_chunk_0",
+          "doc_name": "3M_2023Q2_10Q",
+          "doc_id": "financebench_id_01858_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_01226_ev_0_chunk_2",
+          "doc_name": "3M_2022_10K",
+          "doc_id": "financebench_id_01226_ev_0"
+        }
+      ],
+      "latency_ms": 502.2,
+      "recall": 0.0,
+      "mrr": 0.0,
+      "precision": 0.0,
+      "failure_label": ""
+    },
+    {
+      "case_id": "financebench_id_01226",
+      "question_type": "domain-relevant",
+      "question": "What drove operating margin change as of FY2022 for 3M? If operating margin is not a useful metric for a company like this, then please state that and explain why.",
+      "gold_doc_name": "3M_2022_10K",
+      "retrieved": [
+        {
+          "chunk_id": "financebench_id_01858_ev_0_chunk_5",
+          "doc_name": "3M_2023Q2_10Q",
+          "doc_id": "financebench_id_01858_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_01865_ev_0_chunk_0",
+          "doc_name": "3M_2022_10K",
+          "doc_id": "financebench_id_01865_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_01858_ev_0_chunk_1",
+          "doc_name": "3M_2023Q2_10Q",
+          "doc_id": "financebench_id_01858_ev_0"
+        }
+      ],
+      "latency_ms": 364.8,
+      "recall": 0.0,
+      "mrr": 0.0,
+      "precision": 0.0,
+      "failure_label": ""
+    },
+    {
+      "case_id": "financebench_id_01865",
+      "question_type": "novel-generated",
+      "question": "If we exclude the impact of M&A, which segment has dragged down 3M's overall growth in 2022?",
+      "gold_doc_name": "3M_2022_10K",
+      "retrieved": [
+        {
+          "chunk_id": "financebench_id_01858_ev_0_chunk_1",
+          "doc_name": "3M_2023Q2_10Q",
+          "doc_id": "financebench_id_01858_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_01865_ev_0_chunk_0",
+          "doc_name": "3M_2022_10K",
+          "doc_id": "financebench_id_01865_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_01865_ev_0_chunk_2",
+          "doc_name": "3M_2022_10K",
+          "doc_id": "financebench_id_01865_ev_0"
+        }
+      ],
+      "latency_ms": 355.0,
+      "recall": 1.0,
+      "mrr": 0.5,
+      "precision": 0.6666666666666666,
+      "failure_label": ""
+    },
+    {
+      "case_id": "financebench_id_00807",
+      "question_type": "domain-relevant",
+      "question": "Does 3M have a reasonably healthy liquidity profile based on its quick ratio for Q2 of FY2023? If the quick ratio is not relevant to measure liquidity, please state that and explain why.",
+      "gold_doc_name": "3M_2023Q2_10Q",
+      "retrieved": [
+        {
+          "chunk_id": "financebench_id_01858_ev_0_chunk_5",
+          "doc_name": "3M_2023Q2_10Q",
+          "doc_id": "financebench_id_01858_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_03029_ev_0_chunk_3",
+          "doc_name": "3M_2018_10K",
+          "doc_id": "financebench_id_03029_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_01226_ev_0_chunk_3",
+          "doc_name": "3M_2022_10K",
+          "doc_id": "financebench_id_01226_ev_0"
+        }
+      ],
+      "latency_ms": 353.7,
+      "recall": 0.0,
+      "mrr": 0.0,
+      "precision": 0.0,
+      "failure_label": ""
+    },
+    {
+      "case_id": "financebench_id_00941",
+      "question_type": "domain-relevant",
+      "question": "Which debt securities are registered to trade on a national securities exchange under 3M's name as of Q2 of 2023?",
+      "gold_doc_name": "3M_2023Q2_10Q",
+      "retrieved": [
+        {
+          "chunk_id": "financebench_id_00499_ev_2_chunk_2",
+          "doc_name": "3M_2022_10K",
+          "doc_id": "financebench_id_00499_ev_2"
+        },
+        {
+          "chunk_id": "financebench_id_03029_ev_0_chunk_2",
+          "doc_name": "3M_2018_10K",
+          "doc_id": "financebench_id_03029_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_00807_ev_0_chunk_2",
+          "doc_name": "3M_2023Q2_10Q",
+          "doc_id": "financebench_id_00807_ev_0"
+        }
+      ],
+      "latency_ms": 491.3,
+      "recall": 0.0,
+      "mrr": 0.0,
+      "precision": 0.0,
+      "failure_label": ""
+    },
+    {
+      "case_id": "financebench_id_01858",
+      "question_type": "novel-generated",
+      "question": "Does 3M maintain a stable trend of dividend distribution?",
+      "gold_doc_name": "3M_2023Q2_10Q",
+      "retrieved": [
+        {
+          "chunk_id": "financebench_id_01858_ev_0_chunk_0",
+          "doc_name": "3M_2023Q2_10Q",
+          "doc_id": "financebench_id_01858_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_01858_ev_0_chunk_1",
+          "doc_name": "3M_2023Q2_10Q",
+          "doc_id": "financebench_id_01858_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_01858_ev_0_chunk_5",
+          "doc_name": "3M_2023Q2_10Q",
+          "doc_id": "financebench_id_01858_ev_0"
+        }
+      ],
+      "latency_ms": 345.8,
+      "recall": 1.0,
+      "mrr": 1.0,
+      "precision": 1.0,
+      "failure_label": ""
+    },
+    {
+      "case_id": "financebench_id_02987",
+      "question_type": "metrics-generated",
+      "question": "What is the FY2019 fixed asset turnover ratio for Activision Blizzard? Fixed asset turnover ratio is defined as: FY2019 revenue / (average PP&E between FY2018 and FY2019). Round your answer to two decimal places. Base your judgments on the information provided primarily in the statement of income and the statement of financial position.",
+      "gold_doc_name": "ACTIVISIONBLIZZARD_2019_10K",
+      "retrieved": [
+        {
+          "chunk_id": "financebench_id_07966_ev_1_chunk_3",
+          "doc_name": "ACTIVISIONBLIZZARD_2019_10K",
+          "doc_id": "financebench_id_07966_ev_1"
+        },
+        {
+          "chunk_id": "financebench_id_07966_ev_1_chunk_2",
+          "doc_name": "ACTIVISIONBLIZZARD_2019_10K",
+          "doc_id": "financebench_id_07966_ev_1"
+        },
+        {
+          "chunk_id": "financebench_id_07966_ev_1_chunk_0",
+          "doc_name": "ACTIVISIONBLIZZARD_2019_10K",
+          "doc_id": "financebench_id_07966_ev_1"
+        }
+      ],
+      "latency_ms": 366.1,
+      "recall": 0.0,
+      "mrr": 0.0,
+      "precision": 0.0,
+      "failure_label": ""
+    },
+    {
+      "case_id": "financebench_id_07966",
+      "question_type": "metrics-generated",
+      "question": "What is the FY2017 - FY2019 3 year average of capex as a % of revenue for Activision Blizzard? Answer in units of percents and round to one decimal place. Calculate (or extract) the answer from the statement of income and the cash flow statement.",
+      "gold_doc_name": "ACTIVISIONBLIZZARD_2019_10K",
+      "retrieved": [
+        {
+          "chunk_id": "financebench_id_02987_ev_1_chunk_1",
+          "doc_name": "ACTIVISIONBLIZZARD_2019_10K",
+          "doc_id": "financebench_id_02987_ev_1"
+        },
+        {
+          "chunk_id": "financebench_id_07966_ev_0_chunk_1",
+          "doc_name": "ACTIVISIONBLIZZARD_2019_10K",
+          "doc_id": "financebench_id_07966_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_07966_ev_1_chunk_3",
+          "doc_name": "ACTIVISIONBLIZZARD_2019_10K",
+          "doc_id": "financebench_id_07966_ev_1"
+        }
+      ],
+      "latency_ms": 486.9,
+      "recall": 1.0,
+      "mrr": 1.0,
+      "precision": 1.0,
+      "failure_label": ""
+    },
+    {
+      "case_id": "financebench_id_04735",
+      "question_type": "metrics-generated",
+      "question": "You are an investment banker and your only resource(s) to answer the following question is (are): the statement of financial position and the cash flow statement. Here's the question: what is the FY2015 operating cash flow ratio for Adobe? Operating cash flow ratio is defined as: cash from operations / total current liabilities. Round your answer to two decimal places.",
+      "gold_doc_name": "ADOBE_2015_10K",
+      "retrieved": [
+        {
+          "chunk_id": "financebench_id_03856_ev_1_chunk_3",
+          "doc_name": "ADOBE_2017_10K",
+          "doc_id": "financebench_id_03856_ev_1"
+        },
+        {
+          "chunk_id": "financebench_id_00591_ev_0_chunk_0",
+          "doc_name": "ADOBE_2022_10K",
+          "doc_id": "financebench_id_00591_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_00591_ev_0_chunk_1",
+          "doc_name": "ADOBE_2022_10K",
+          "doc_id": "financebench_id_00591_ev_0"
+        }
+      ],
+      "latency_ms": 346.6,
+      "recall": 0.0,
+      "mrr": 0.0,
+      "precision": 0.0,
+      "failure_label": ""
+    },
+    {
+      "case_id": "financebench_id_07507",
+      "question_type": "metrics-generated",
+      "question": "What is Adobe's year-over-year change in unadjusted operating income from FY2015 to FY2016 (in units of percents and round to one decimal place)? Give a solution to the question by using the income statement.",
+      "gold_doc_name": "ADOBE_2016_10K",
+      "retrieved": [
+        {
+          "chunk_id": "financebench_id_07507_ev_0_chunk_1",
+          "doc_name": "ADOBE_2016_10K",
+          "doc_id": "financebench_id_07507_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_03856_ev_1_chunk_0",
+          "doc_name": "ADOBE_2017_10K",
+          "doc_id": "financebench_id_03856_ev_1"
+        },
+        {
+          "chunk_id": "financebench_id_04735_ev_1_chunk_3",
+          "doc_name": "ADOBE_2015_10K",
+          "doc_id": "financebench_id_04735_ev_1"
+        }
+      ],
+      "latency_ms": 382.6,
+      "recall": 1.0,
+      "mrr": 1.0,
+      "precision": 0.3333333333333333,
+      "failure_label": ""
+    },
+    {
+      "case_id": "financebench_id_03856",
+      "question_type": "metrics-generated",
+      "question": "What is the FY2017 operating cash flow ratio for Adobe? Operating cash flow ratio is defined as: cash from operations / total current liabilities. Round your answer to two decimal places. Please utilize information provided primarily within the balance sheet and the cash flow statement.",
+      "gold_doc_name": "ADOBE_2017_10K",
+      "retrieved": [
+        {
+          "chunk_id": "financebench_id_00591_ev_0_chunk_0",
+          "doc_name": "ADOBE_2022_10K",
+          "doc_id": "financebench_id_00591_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_03856_ev_1_chunk_3",
+          "doc_name": "ADOBE_2017_10K",
+          "doc_id": "financebench_id_03856_ev_1"
+        },
+        {
+          "chunk_id": "financebench_id_00591_ev_0_chunk_2",
+          "doc_name": "ADOBE_2022_10K",
+          "doc_id": "financebench_id_00591_ev_0"
+        }
+      ],
+      "latency_ms": 467.1,
+      "recall": 0.5,
+      "mrr": 0.5,
+      "precision": 0.3333333333333333,
+      "failure_label": ""
+    },
+    {
+      "case_id": "financebench_id_00438",
+      "question_type": "domain-relevant",
+      "question": "Does Adobe have an improving operating margin profile as of FY2022? If operating margin is not a useful metric for a company like this, then state that and explain why.",
+      "gold_doc_name": "ADOBE_2022_10K",
+      "retrieved": [
+        {
+          "chunk_id": "financebench_id_00438_ev_0_chunk_0",
+          "doc_name": "ADOBE_2022_10K",
+          "doc_id": "financebench_id_00438_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_03856_ev_0_chunk_2",
+          "doc_name": "ADOBE_2017_10K",
+          "doc_id": "financebench_id_03856_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_03856_ev_1_chunk_3",
+          "doc_name": "ADOBE_2017_10K",
+          "doc_id": "financebench_id_03856_ev_1"
+        }
+      ],
+      "latency_ms": 341.4,
+      "recall": 1.0,
+      "mrr": 1.0,
+      "precision": 0.3333333333333333,
+      "failure_label": ""
+    },
+    {
+      "case_id": "financebench_id_00591",
+      "question_type": "novel-generated",
+      "question": "Does Adobe have an improving Free cashflow conversion as of FY2022?",
+      "gold_doc_name": "ADOBE_2022_10K",
+      "retrieved": [
+        {
+          "chunk_id": "financebench_id_00591_ev_0_chunk_2",
+          "doc_name": "ADOBE_2022_10K",
+          "doc_id": "financebench_id_00591_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_03856_ev_1_chunk_3",
+          "doc_name": "ADOBE_2017_10K",
+          "doc_id": "financebench_id_03856_ev_1"
+        },
+        {
+          "chunk_id": "financebench_id_00591_ev_0_chunk_1",
+          "doc_name": "ADOBE_2022_10K",
+          "doc_id": "financebench_id_00591_ev_0"
+        }
+      ],
+      "latency_ms": 356.4,
+      "recall": 1.0,
+      "mrr": 1.0,
+      "precision": 0.6666666666666666,
+      "failure_label": ""
+    },
+    {
+      "case_id": "financebench_id_01319",
+      "question_type": "domain-relevant",
+      "question": "What is the quantity of restructuring costs directly outlined in AES Corporation's income statements for FY2022? If restructuring costs are not explicitly outlined then state 0.",
+      "gold_doc_name": "AES_2022_10K",
+      "retrieved": [
+        {
+          "chunk_id": "financebench_id_01319_ev_0_chunk_2",
+          "doc_name": "AES_2022_10K",
+          "doc_id": "financebench_id_01319_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_00540_ev_1_chunk_2",
+          "doc_name": "AES_2022_10K",
+          "doc_id": "financebench_id_00540_ev_1"
+        },
+        {
+          "chunk_id": "financebench_id_10420_ev_1_chunk_2",
+          "doc_name": "AES_2022_10K",
+          "doc_id": "financebench_id_10420_ev_1"
+        }
+      ],
+      "latency_ms": 502.3,
+      "recall": 1.0,
+      "mrr": 1.0,
+      "precision": 1.0,
+      "failure_label": ""
+    },
+    {
+      "case_id": "financebench_id_00540",
+      "question_type": "domain-relevant",
+      "question": "Roughly how many times has AES Corporation sold its inventory in FY2022? Calculate inventory turnover ratio for the FY2022; if conventional inventory management is not meaningful for the company then state that and explain why.",
+      "gold_doc_name": "AES_2022_10K",
+      "retrieved": [
+        {
+          "chunk_id": "financebench_id_01319_ev_0_chunk_3",
+          "doc_name": "AES_2022_10K",
+          "doc_id": "financebench_id_01319_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_00540_ev_1_chunk_3",
+          "doc_name": "AES_2022_10K",
+          "doc_id": "financebench_id_00540_ev_1"
+        },
+        {
+          "chunk_id": "financebench_id_10420_ev_1_chunk_3",
+          "doc_name": "AES_2022_10K",
+          "doc_id": "financebench_id_10420_ev_1"
+        }
+      ],
+      "latency_ms": 345.9,
+      "recall": 0.5,
+      "mrr": 1.0,
+      "precision": 1.0,
+      "failure_label": ""
+    },
+    {
+      "case_id": "financebench_id_10420",
+      "question_type": "metrics-generated",
+      "question": "Based on the information provided primarily in the statement of financial position and the statement of income, what is AES's FY2022 return on assets (ROA)? ROA is defined as: FY2022 net income / (average total assets between FY2021 and FY2022). Round your answer to two decimal places.",
+      "gold_doc_name": "AES_2022_10K",
+      "retrieved": [
+        {
+          "chunk_id": "financebench_id_00540_ev_0_chunk_1",
+          "doc_name": "AES_2022_10K",
+          "doc_id": "financebench_id_00540_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_10420_ev_0_chunk_1",
+          "doc_name": "AES_2022_10K",
+          "doc_id": "financebench_id_10420_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_01351_ev_0_chunk_3",
+          "doc_name": "AMERICANEXPRESS_2022_10K",
+          "doc_id": "financebench_id_01351_ev_0"
+        }
+      ],
+      "latency_ms": 355.6,
+      "recall": 0.5,
+      "mrr": 1.0,
+      "precision": 0.6666666666666666,
+      "failure_label": ""
+    },
+    {
+      "case_id": "financebench_id_06655",
+      "question_type": "metrics-generated",
+      "question": "What is Amazon's FY2017 days payable outstanding (DPO)? DPO is defined as: 365 * (average accounts payable between FY2016 and FY2017) / (FY2017 COGS + change in inventory between FY2016 and FY2017). Round your answer to two decimal places. Address the question by using the line items and information shown within the balance sheet and the P&L statement.",
+      "gold_doc_name": "AMAZON_2017_10K",
+      "retrieved": [
+        {
+          "chunk_id": "financebench_id_06655_ev_1_chunk_0",
+          "doc_name": "AMAZON_2017_10K",
+          "doc_id": "financebench_id_06655_ev_1"
+        },
+        {
+          "chunk_id": "financebench_id_06655_ev_1_chunk_1",
+          "doc_name": "AMAZON_2017_10K",
+          "doc_id": "financebench_id_06655_ev_1"
+        },
+        {
+          "chunk_id": "financebench_id_08135_ev_0_chunk_0",
+          "doc_name": "AMAZON_2017_10K",
+          "doc_id": "financebench_id_08135_ev_0"
+        }
+      ],
+      "latency_ms": 489.3,
+      "recall": 1.0,
+      "mrr": 1.0,
+      "precision": 1.0,
+      "failure_label": ""
+    },
+    {
+      "case_id": "financebench_id_08135",
+      "question_type": "metrics-generated",
+      "question": "What is Amazon's year-over-year change in revenue from FY2016 to FY2017 (in units of percents and round to one decimal place)? Calculate what was asked by utilizing the line items clearly shown in the statement of income.",
+      "gold_doc_name": "AMAZON_2017_10K",
+      "retrieved": [
+        {
+          "chunk_id": "financebench_id_06655_ev_0_chunk_1",
+          "doc_name": "AMAZON_2017_10K",
+          "doc_id": "financebench_id_06655_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_08135_ev_0_chunk_1",
+          "doc_name": "AMAZON_2017_10K",
+          "doc_id": "financebench_id_08135_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_06655_ev_0_chunk_0",
+          "doc_name": "AMAZON_2017_10K",
+          "doc_id": "financebench_id_06655_ev_0"
+        }
+      ],
+      "latency_ms": 343.2,
+      "recall": 1.0,
+      "mrr": 1.0,
+      "precision": 1.0,
+      "failure_label": ""
+    }
+  ]
+}

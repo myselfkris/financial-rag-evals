@@ -144,6 +144,15 @@ def mean(values: list[float]) -> float:
     return sum(values) / len(values) if values else 0.0
 
 
+def percentile(values: list[float], p: float) -> float:
+    """Nearest-rank percentile: p50 = median, p95 = 'slow but not the worst'."""
+    if not values:
+        return 0.0
+    ordered = sorted(values)
+    idx = max(0, min(len(ordered) - 1, round(p / 100 * len(ordered)) - 1))
+    return ordered[idx]
+
+
 # --------------------------------------------------------------------------
 # Main
 # --------------------------------------------------------------------------
@@ -215,6 +224,9 @@ def main():
         "precision": mean([r["precision"] for r in rows]),
         "complete_misses": sum(1 for r in rows if r["recall"] == 0),
         "latency_ms_avg": mean([r["latency_ms"] for r in rows]),
+        # Averages are distorted by one-off costs (e.g. loading a model on the first query).
+        "latency_ms_p50": percentile([r["latency_ms"] for r in rows], 50),
+        "latency_ms_p95": percentile([r["latency_ms"] for r in rows], 95),
     }
     if judge_metrics:
         summary["ctx_recall"] = mean([r["ctx_recall"] for r in rows])
@@ -246,7 +258,7 @@ def main():
 
     print("\n" + "-" * 70)
     for key, value in summary.items():
-        if key == "latency_ms_avg":
+        if key.startswith("latency_ms"):
             print(f"  {key:<16}: {value:.0f} ms")
         elif isinstance(value, float):
             print(f"  {key:<16}: {value:.2%}")
