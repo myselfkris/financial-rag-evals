@@ -26,13 +26,14 @@ def main():
         print("No runs found in results/. Run evals/run_eval.py first.")
         return
 
-    header = f"{'run_id':<38} {'n':>3} {'k':>2} " + " ".join(f"{m:>13}" for m in METRICS) + "  note"
+    w = max(len("run_id"), *(len(r["run_id"]) for r in runs))
+    header = f"{'run_id':<{w}} {'n':>3} {'k':>2} " + " ".join(f"{m:>13}" for m in METRICS) + "  note"
     print(header)
     print("-" * len(header))
     for r in runs:
         s, c = r["summary"], r["config"]
         cells = " ".join(f"{s[m]:>13.2%}" if m in s else f"{'-':>13}" for m in METRICS)
-        print(f"{r['run_id']:<38} {c['n_cases']:>3} {c['k']:>2} {cells}  {c.get('note', '')}")
+        print(f"{r['run_id']:<{w}} {c['n_cases']:>3} {c['k']:>2} {cells}  {c.get('note', '')}")
 
     print("\nOnly compare runs with the same split, n and k. Different settings = different test.")
 

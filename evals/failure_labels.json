@@ -1,50 +1,50 @@
 {
-  "_about": "Hand-labelled failures for error analysis. One entry per case_id; updated as we review cases. 'label' = WHAT went wrong (symptom). 'suspected_cause' = WHY (hypothesis until verified).",
+  "_about": "Hand-labelled failures for error analysis, grouped by run. 'label' = WHAT went wrong (symptom). 'suspected_cause' = WHY (hypothesis until verified).",
   "_label_set": {
     "company_mismatch": "Retrieved chunks are from a different company's filing",
     "year_mismatch": "Right company, wrong fiscal year / period",
     "right_doc_wrong_page": "Right filing retrieved, but not the gold page"
   },
   "_hypotheses": {
-    "H1_chunk_lacks_context": "Chunks after the top of a page don't contain the company name, year or units, so the embedding can't link them to the right company. Status: suspected, not yet verified.",
-    "H2_embedding_model_weak": "all-MiniLM-L6-v2 is small and general-purpose: it matches topic ('capex', 'cash flow') well but is weak at telling entities apart (3M vs AMD, 2018 vs 2022), and reads only the first 256 tokens. Status: suspected, not yet verified."
+    "H1_chunk_lacks_context": "Chunks after the top of a page don't contain the company name, year or units, so the embedding can't link them to the right company. Status: SUPPORTED for company matching. With the header (retriever_4_header) there are 0 pure company mismatches among the misses (was 4). Recall@3 stayed at 60%, because new year and page failures appeared.",
+    "H2_embedding_model_weak": "all-MiniLM-L6-v2 is small and general-purpose: it matches topic well but is weak at telling entities apart, and reads only the first 256 tokens. Status: suspected, not yet tested. Year mismatches persist even with the year in the header (e.g. 07507 gets ADOBE_2017 instead of ADOBE_2016), which fits this hypothesis."
   },
-  "labels": {
-    "financebench_id_03029": {
-      "label": "company_mismatch",
-      "suspected_cause": ["H1_chunk_lacks_context", "H2_embedding_model_weak"],
-      "notes": "Gold 3M_2018_10K. Got AmericanWaterWorks, 3M_2022_10K (right company, wrong year), MGM.",
-      "run": "20261121_231949_retriever_3_dev"
+  "runs": {
+    "20261121_231949_retriever_3_dev": {
+      "description": "Baseline: 1000-char chunks, 200 overlap, no header",
+      "labels": {
+        "financebench_id_03029": {"label": "company_mismatch", "suspected_cause": ["H1_chunk_lacks_context", "H2_embedding_model_weak"], "notes": "Gold 3M_2018_10K. Got AmericanWaterWorks, 3M_2022_10K, MGM."},
+        "financebench_id_00807": {"label": "company_mismatch", "suspected_cause": ["H1_chunk_lacks_context", "H2_embedding_model_weak"], "notes": "Gold 3M_2023Q2_10Q. Got BestBuy, PepsiCo, PepsiCo."},
+        "financebench_id_01319": {"label": "company_mismatch", "suspected_cause": ["H1_chunk_lacks_context", "H2_embedding_model_weak"], "notes": "Gold AES_2022_10K. Got Amcor, Amcor, Activision."},
+        "financebench_id_01226": {"label": "company_mismatch", "suspected_cause": ["H1_chunk_lacks_context", "H2_embedding_model_weak"], "notes": "Gold 3M_2022_10K. Got 3M_2023Q2_10Q, AMD, AMD."},
+        "financebench_id_07507": {"label": "year_mismatch", "suspected_cause": ["H2_embedding_model_weak"], "notes": "Gold ADOBE_2016_10K. Got Adobe 2022, 2017, 2022."},
+        "financebench_id_00499": {"label": "right_doc_wrong_page", "suspected_cause": [], "notes": "Gold 3M_2022_10K. Got Ulta, Ulta, 3M_2022_10K (different page)."}
+      }
     },
-    "financebench_id_00807": {
-      "label": "company_mismatch",
-      "suspected_cause": ["H1_chunk_lacks_context", "H2_embedding_model_weak"],
-      "notes": "Gold 3M_2023Q2_10Q. Got BestBuy, PepsiCo, PepsiCo.",
-      "run": "20261121_231949_retriever_3_dev"
+    "20261122_003700_retriever_4_header_dev": {
+      "description": "H1 experiment: same as baseline + 'Company | Filing' header on every chunk",
+      "changes_vs_baseline": "Fixed: 03029, 01319. Broke: 00941, 04735. Partial drop: 02987, 07966 (multi-page questions; all 3 slots taken by one gold page). Partial gain: 06655.",
+      "labels": {
+        "financebench_id_00499": {"label": "year_mismatch", "suspected_cause": ["H2_embedding_model_weak"], "notes": "Gold 3M_2022_10K. Got 3M_2023Q2_10Q x2, 3M_2018_10K. Company now right, period wrong."},
+        "financebench_id_04735": {"label": "year_mismatch", "suspected_cause": ["H2_embedding_model_weak"], "notes": "NEW failure. Gold ADOBE_2015_10K. Got Adobe 2022, Adobe 2017, AMD_2015."},
+        "financebench_id_07507": {"label": "year_mismatch", "suspected_cause": ["H2_embedding_model_weak"], "notes": "Gold ADOBE_2016_10K. Got Adobe 2017 x2, Adobe 2022."},
+        "financebench_id_01226": {"label": "right_doc_wrong_page", "suspected_cause": [], "notes": "Gold 3M_2022_10K. Got 3M_2022_10K at rank 1 (other page), then 3M_2023Q2_10Q x2."},
+        "financebench_id_00807": {"label": "right_doc_wrong_page", "suspected_cause": [], "notes": "Gold 3M_2023Q2_10Q. Got 3M_2023Q2_10Q at rank 1 (other page), 3M_2018, 3M_2022."},
+        "financebench_id_00941": {"label": "right_doc_wrong_page", "suspected_cause": [], "notes": "NEW failure. Gold 3M_2023Q2_10Q. Got 3M_2018, 3M_2022, then 3M_2023Q2_10Q at rank 3 (other page)."}
+      }
     },
-    "financebench_id_01319": {
-      "label": "company_mismatch",
-      "suspected_cause": ["H1_chunk_lacks_context", "H2_embedding_model_weak"],
-      "notes": "Gold AES_2022_10K. Got Amcor, Amcor, Activision.",
-      "run": "20261121_231949_retriever_3_dev"
-    },
-    "financebench_id_01226": {
-      "label": "company_mismatch",
-      "suspected_cause": ["H1_chunk_lacks_context", "H2_embedding_model_weak"],
-      "notes": "Gold 3M_2022_10K. Got 3M_2023Q2_10Q (right company, wrong period), AMD, AMD.",
-      "run": "20261121_231949_retriever_3_dev"
-    },
-    "financebench_id_07507": {
-      "label": "year_mismatch",
-      "suspected_cause": ["H2_embedding_model_weak"],
-      "notes": "Gold ADOBE_2016_10K. Got Adobe 2022, 2017, 2022. Company right, year wrong.",
-      "run": "20261121_231949_retriever_3_dev"
-    },
-    "financebench_id_00499": {
-      "label": "right_doc_wrong_page",
-      "suspected_cause": [],
-      "notes": "Gold 3M_2022_10K. Got Ulta, Ulta, then 3M_2022_10K at rank 3 but a different page. Cause not analysed yet.",
-      "run": "20261121_231949_retriever_3_dev"
+    "20261122_005215_retriever_5_page_header_dev": {
+      "description": "H1b experiment: H1 + first 200 chars of the page (table name, units, years) in every chunk's header",
+      "changes_vs_H1": "Fixed: 07507 (year mismatch -> ADOBE_2016 at rank 1). Broke: 02987 (multi-page; all 3 slots from one filing, wrong pages). Partial: 07966 up, 00540 down. MRR dropped on 04672 and 01865. Year mismatches 3 -> 1; right_doc_wrong_page 3 -> 5.",
+      "conclusion": "Page-top context helps year matching. The main bottleneck is now choosing the right PAGE within the right filing, which is a ranking/understanding problem and points to H2.",
+      "labels": {
+        "financebench_id_04735": {"label": "year_mismatch", "suspected_cause": ["H2_embedding_model_weak"], "notes": "Gold ADOBE_2015_10K. Got Adobe 2017, 2022, 2022."},
+        "financebench_id_00499": {"label": "right_doc_wrong_page", "suspected_cause": ["H2_embedding_model_weak"], "notes": "Gold 3M_2022_10K. Got 3M_2023Q2_10Q x2, then 3M_2022_10K at rank 3 (other page)."},
+        "financebench_id_01226": {"label": "right_doc_wrong_page", "suspected_cause": ["H2_embedding_model_weak"], "notes": "Gold 3M_2022_10K. 3M_2022_10K at rank 2 (other page), 3M_2023Q2_10Q x2."},
+        "financebench_id_00807": {"label": "right_doc_wrong_page", "suspected_cause": ["H2_embedding_model_weak"], "notes": "Gold 3M_2023Q2_10Q. Right filing at rank 1, wrong page."},
+        "financebench_id_00941": {"label": "right_doc_wrong_page", "suspected_cause": ["H2_embedding_model_weak"], "notes": "Gold 3M_2023Q2_10Q. Right filing at rank 3, wrong page."},
+        "financebench_id_02987": {"label": "right_doc_wrong_page", "suspected_cause": ["H2_embedding_model_weak"], "notes": "NEW failure. Multi-page question (2 gold pages). All 3 results from ACTIVISIONBLIZZARD_2019_10K, none a gold page."}
+      }
     }
   }
 }
