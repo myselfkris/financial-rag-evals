@@ -31,6 +31,7 @@ os.chdir(ROOT)  # retrievers use relative paths like "data/chroma_db"
 
 SPLITS = {
     "dev": "data/dev_20.json",
+    "dev2": "data/dev2_20.json",  # random across companies (make_dev2.py)
     "test": "data/frozen_test_30.json",
 }
 RESULTS_DIR = ROOT / "results"

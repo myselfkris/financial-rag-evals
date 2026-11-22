@@ -1,0 +1,850 @@
+{
+  "run_id": "20261122_232537_retriever_8_filter_fix_test",
+  "config": {
+    "retriever": "retriever_8_filter_fix",
+    "collection": "financebench_h2_bge_base",
+    "retriever_file_hash": "2fe732084105",
+    "split": "test",
+    "split_file_hash": "be2cf591afec",
+    "k": 3,
+    "n_cases": 30,
+    "judge_model": null,
+    "note": "CONTAMINATED: fix chosen after seeing these test failures; not a release score"
+  },
+  "summary": {
+    "recall": 0.7666666666666667,
+    "mrr": 0.8,
+    "precision": 0.6444444444444444,
+    "complete_misses": 6,
+    "latency_ms_avg": 591.3966666666666,
+    "latency_ms_p50": 96.6,
+    "latency_ms_p95": 111.9
+  },
+  "cases": [
+    {
+      "case_id": "financebench_id_08286",
+      "question_type": "metrics-generated",
+      "question": "By drawing conclusions from the information stated only in the income statement, what is Amazon's FY2019 net income attributable to shareholders (in USD millions)?",
+      "gold_doc_name": "AMAZON_2019_10K",
+      "retrieved": [
+        {
+          "chunk_id": "financebench_id_08286_ev_0_chunk_1",
+          "doc_name": "AMAZON_2019_10K",
+          "doc_id": "financebench_id_08286_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_08286_ev_0_chunk_0",
+          "doc_name": "AMAZON_2019_10K",
+          "doc_id": "financebench_id_08286_ev_0"
+        }
+      ],
+      "latency_ms": 14909.8,
+      "recall": 1.0,
+      "mrr": 1.0,
+      "precision": 1.0,
+      "failure_label": ""
+    },
+    {
+      "case_id": "financebench_id_03882",
+      "question_type": "metrics-generated",
+      "question": "What is Amcor's year end FY2020 net AR (in USD millions)? Address the question by adopting the perspective of a financial analyst who can only use the details shown within the balance sheet.",
+      "gold_doc_name": "AMCOR_2020_10K",
+      "retrieved": [
+        {
+          "chunk_id": "financebench_id_03882_ev_0_chunk_0",
+          "doc_name": "AMCOR_2020_10K",
+          "doc_id": "financebench_id_03882_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_03882_ev_0_chunk_1",
+          "doc_name": "AMCOR_2020_10K",
+          "doc_id": "financebench_id_03882_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_03882_ev_0_chunk_2",
+          "doc_name": "AMCOR_2020_10K",
+          "doc_id": "financebench_id_03882_ev_0"
+        }
+      ],
+      "latency_ms": 111.9,
+      "recall": 1.0,
+      "mrr": 1.0,
+      "precision": 1.0,
+      "failure_label": ""
+    },
+    {
+      "case_id": "financebench_id_01935",
+      "question_type": "novel-generated",
+      "question": "What was the key agenda of the AMCOR's 8k filing dated 1st July 2022?",
+      "gold_doc_name": "AMCOR_2022_8K_dated-2022-07-01",
+      "retrieved": [
+        {
+          "chunk_id": "financebench_id_01935_ev_0_chunk_3",
+          "doc_name": "AMCOR_2022_8K_dated-2022-07-01",
+          "doc_id": "financebench_id_01935_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_01935_ev_0_chunk_4",
+          "doc_name": "AMCOR_2022_8K_dated-2022-07-01",
+          "doc_id": "financebench_id_01935_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_01935_ev_0_chunk_2",
+          "doc_name": "AMCOR_2022_8K_dated-2022-07-01",
+          "doc_id": "financebench_id_01935_ev_0"
+        }
+      ],
+      "latency_ms": 88.9,
+      "recall": 1.0,
+      "mrr": 1.0,
+      "precision": 1.0,
+      "failure_label": ""
+    },
+    {
+      "case_id": "financebench_id_00799",
+      "question_type": "domain-relevant",
+      "question": "Has AMCOR's quick ratio improved or declined between FY2023 and FY2022? If the quick ratio is not something that a financial analyst would ask about a company like this, then state that and explain why.",
+      "gold_doc_name": "AMCOR_2023_10K",
+      "retrieved": [
+        {
+          "chunk_id": "financebench_id_01930_ev_0_chunk_0",
+          "doc_name": "AMCOR_2023Q4_EARNINGS",
+          "doc_id": "financebench_id_01930_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_01935_ev_0_chunk_2",
+          "doc_name": "AMCOR_2022_8K_dated-2022-07-01",
+          "doc_id": "financebench_id_01935_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_01935_ev_0_chunk_1",
+          "doc_name": "AMCOR_2022_8K_dated-2022-07-01",
+          "doc_id": "financebench_id_01935_ev_0"
+        }
+      ],
+      "latency_ms": 111.4,
+      "recall": 0.0,
+      "mrr": 0.0,
+      "precision": 0.0,
+      "failure_label": ""
+    },
+    {
+      "case_id": "financebench_id_01079",
+      "question_type": "domain-relevant",
+      "question": "What are major acquisitions that AMCOR has done in FY2023, FY2022 and FY2021?",
+      "gold_doc_name": "AMCOR_2023_10K",
+      "retrieved": [
+        {
+          "chunk_id": "financebench_id_01079_ev_0_chunk_2",
+          "doc_name": "AMCOR_2023_10K",
+          "doc_id": "financebench_id_01079_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_01079_ev_0_chunk_1",
+          "doc_name": "AMCOR_2023_10K",
+          "doc_id": "financebench_id_01079_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_01079_ev_0_chunk_0",
+          "doc_name": "AMCOR_2023_10K",
+          "doc_id": "financebench_id_01079_ev_0"
+        }
+      ],
+      "latency_ms": 89.5,
+      "recall": 1.0,
+      "mrr": 1.0,
+      "precision": 1.0,
+      "failure_label": ""
+    },
+    {
+      "case_id": "financebench_id_01148",
+      "question_type": "domain-relevant",
+      "question": "What industry does AMCOR primarily operate in?",
+      "gold_doc_name": "AMCOR_2023_10K",
+      "retrieved": [
+        {
+          "chunk_id": "financebench_id_01148_ev_0_chunk_4",
+          "doc_name": "AMCOR_2023_10K",
+          "doc_id": "financebench_id_01148_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_01148_ev_0_chunk_2",
+          "doc_name": "AMCOR_2023_10K",
+          "doc_id": "financebench_id_01148_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_01148_ev_0_chunk_0",
+          "doc_name": "AMCOR_2023_10K",
+          "doc_id": "financebench_id_01148_ev_0"
+        }
+      ],
+      "latency_ms": 77.6,
+      "recall": 1.0,
+      "mrr": 1.0,
+      "precision": 1.0,
+      "failure_label": ""
+    },
+    {
+      "case_id": "financebench_id_00684",
+      "question_type": "domain-relevant",
+      "question": "Does AMCOR have an improving gross margin profile as of FY2023? If gross margin is not a useful metric for a company like this, then state that and explain why.",
+      "gold_doc_name": "AMCOR_2023_10K",
+      "retrieved": [
+        {
+          "chunk_id": "financebench_id_01930_ev_0_chunk_0",
+          "doc_name": "AMCOR_2023Q4_EARNINGS",
+          "doc_id": "financebench_id_01930_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_00799_ev_0_chunk_0",
+          "doc_name": "AMCOR_2023_10K",
+          "doc_id": "financebench_id_00799_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_01928_ev_0_chunk_1",
+          "doc_name": "AMCOR_2023Q4_EARNINGS",
+          "doc_id": "financebench_id_01928_ev_0"
+        }
+      ],
+      "latency_ms": 100.2,
+      "recall": 0.0,
+      "mrr": 0.0,
+      "precision": 0.0,
+      "failure_label": ""
+    },
+    {
+      "case_id": "financebench_id_01936",
+      "question_type": "novel-generated",
+      "question": "What is the nature & purpose of AMCOR's restructuring liability as oF Q2 of FY2023 close?",
+      "gold_doc_name": "AMCOR_2023Q2_10Q",
+      "retrieved": [
+        {
+          "chunk_id": "financebench_id_01936_ev_0_chunk_1",
+          "doc_name": "AMCOR_2023Q2_10Q",
+          "doc_id": "financebench_id_01936_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_01936_ev_0_chunk_0",
+          "doc_name": "AMCOR_2023Q2_10Q",
+          "doc_id": "financebench_id_01936_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_01928_ev_0_chunk_3",
+          "doc_name": "AMCOR_2023Q4_EARNINGS",
+          "doc_id": "financebench_id_01928_ev_0"
+        }
+      ],
+      "latency_ms": 92.1,
+      "recall": 1.0,
+      "mrr": 1.0,
+      "precision": 0.6666666666666666,
+      "failure_label": ""
+    },
+    {
+      "case_id": "financebench_id_01928",
+      "question_type": "novel-generated",
+      "question": "What Was AMCOR's Adjusted Non GAAP EBITDA for FY 2023",
+      "gold_doc_name": "AMCOR_2023Q4_EARNINGS",
+      "retrieved": [
+        {
+          "chunk_id": "financebench_id_01928_ev_0_chunk_1",
+          "doc_name": "AMCOR_2023Q4_EARNINGS",
+          "doc_id": "financebench_id_01928_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_01928_ev_0_chunk_0",
+          "doc_name": "AMCOR_2023Q4_EARNINGS",
+          "doc_id": "financebench_id_01928_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_01928_ev_0_chunk_2",
+          "doc_name": "AMCOR_2023Q4_EARNINGS",
+          "doc_id": "financebench_id_01928_ev_0"
+        }
+      ],
+      "latency_ms": 85.6,
+      "recall": 1.0,
+      "mrr": 1.0,
+      "precision": 1.0,
+      "failure_label": ""
+    },
+    {
+      "case_id": "financebench_id_01930",
+      "question_type": "novel-generated",
+      "question": "How much was the Real change in Sales for AMCOR in FY 2023 vs FY 2022, if we exclude the impact of FX movement, passthrough costs and one-off items?",
+      "gold_doc_name": "AMCOR_2023Q4_EARNINGS",
+      "retrieved": [
+        {
+          "chunk_id": "financebench_id_01930_ev_0_chunk_0",
+          "doc_name": "AMCOR_2023Q4_EARNINGS",
+          "doc_id": "financebench_id_01930_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_00799_ev_0_chunk_0",
+          "doc_name": "AMCOR_2023_10K",
+          "doc_id": "financebench_id_00799_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_01928_ev_0_chunk_1",
+          "doc_name": "AMCOR_2023Q4_EARNINGS",
+          "doc_id": "financebench_id_01928_ev_0"
+        }
+      ],
+      "latency_ms": 100.2,
+      "recall": 1.0,
+      "mrr": 1.0,
+      "precision": 0.3333333333333333,
+      "failure_label": ""
+    },
+    {
+      "case_id": "financebench_id_03069",
+      "question_type": "metrics-generated",
+      "question": "Answer the following question as if you are an equity research analyst and have lost internet connection so you do not have access to financial metric providers. According to the details clearly outlined within the P&L statement and the statement of cash flows, what is the FY2015 depreciation and amortization (D&A from cash flow statement) % margin for AMD?",
+      "gold_doc_name": "AMD_2015_10K",
+      "retrieved": [
+        {
+          "chunk_id": "financebench_id_03069_ev_1_chunk_0",
+          "doc_name": "AMD_2015_10K",
+          "doc_id": "financebench_id_03069_ev_1"
+        },
+        {
+          "chunk_id": "financebench_id_03069_ev_1_chunk_1",
+          "doc_name": "AMD_2015_10K",
+          "doc_id": "financebench_id_03069_ev_1"
+        },
+        {
+          "chunk_id": "financebench_id_03069_ev_1_chunk_2",
+          "doc_name": "AMD_2015_10K",
+          "doc_id": "financebench_id_03069_ev_1"
+        }
+      ],
+      "latency_ms": 120.4,
+      "recall": 0.5,
+      "mrr": 1.0,
+      "precision": 1.0,
+      "failure_label": ""
+    },
+    {
+      "case_id": "financebench_id_00222",
+      "question_type": "domain-relevant",
+      "question": "Does AMD have a reasonably healthy liquidity profile based on its quick ratio for FY22? If the quick ratio is not relevant to measure liquidity, please state that and explain why.",
+      "gold_doc_name": "AMD_2022_10K",
+      "retrieved": [
+        {
+          "chunk_id": "financebench_id_01198_ev_0_chunk_1",
+          "doc_name": "AMD_2022_10K",
+          "doc_id": "financebench_id_01198_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_00917_ev_0_chunk_1",
+          "doc_name": "AMD_2022_10K",
+          "doc_id": "financebench_id_00917_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_00563_ev_0_chunk_0",
+          "doc_name": "AMD_2022_10K",
+          "doc_id": "financebench_id_00563_ev_0"
+        }
+      ],
+      "latency_ms": 108.2,
+      "recall": 0.0,
+      "mrr": 0.0,
+      "precision": 0.0,
+      "failure_label": ""
+    },
+    {
+      "case_id": "financebench_id_00995",
+      "question_type": "domain-relevant",
+      "question": "What are the major products and services that AMD sells as of FY22?",
+      "gold_doc_name": "AMD_2022_10K",
+      "retrieved": [
+        {
+          "chunk_id": "financebench_id_00757_ev_0_chunk_0",
+          "doc_name": "AMD_2022_10K",
+          "doc_id": "financebench_id_00757_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_01198_ev_0_chunk_2",
+          "doc_name": "AMD_2022_10K",
+          "doc_id": "financebench_id_01198_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_00917_ev_0_chunk_2",
+          "doc_name": "AMD_2022_10K",
+          "doc_id": "financebench_id_00917_ev_0"
+        }
+      ],
+      "latency_ms": 111.6,
+      "recall": 0.0,
+      "mrr": 0.0,
+      "precision": 0.0,
+      "failure_label": ""
+    },
+    {
+      "case_id": "financebench_id_01198",
+      "question_type": "domain-relevant",
+      "question": "What drove revenue change as of the FY22 for AMD?",
+      "gold_doc_name": "AMD_2022_10K",
+      "retrieved": [
+        {
+          "chunk_id": "financebench_id_01198_ev_0_chunk_3",
+          "doc_name": "AMD_2022_10K",
+          "doc_id": "financebench_id_01198_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_00917_ev_0_chunk_3",
+          "doc_name": "AMD_2022_10K",
+          "doc_id": "financebench_id_00917_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_00917_ev_0_chunk_4",
+          "doc_name": "AMD_2022_10K",
+          "doc_id": "financebench_id_00917_ev_0"
+        }
+      ],
+      "latency_ms": 109.4,
+      "recall": 1.0,
+      "mrr": 1.0,
+      "precision": 1.0,
+      "failure_label": ""
+    },
+    {
+      "case_id": "financebench_id_00917",
+      "question_type": "domain-relevant",
+      "question": "What drove operating margin change as of the FY22 for AMD? If operating margin is not a useful metric for a company like this, then please state that and explain why.",
+      "gold_doc_name": "AMD_2022_10K",
+      "retrieved": [
+        {
+          "chunk_id": "financebench_id_01198_ev_0_chunk_4",
+          "doc_name": "AMD_2022_10K",
+          "doc_id": "financebench_id_01198_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_00917_ev_0_chunk_4",
+          "doc_name": "AMD_2022_10K",
+          "doc_id": "financebench_id_00917_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_00563_ev_0_chunk_0",
+          "doc_name": "AMD_2022_10K",
+          "doc_id": "financebench_id_00563_ev_0"
+        }
+      ],
+      "latency_ms": 106.7,
+      "recall": 1.0,
+      "mrr": 1.0,
+      "precision": 0.6666666666666666,
+      "failure_label": ""
+    },
+    {
+      "case_id": "financebench_id_01279",
+      "question_type": "domain-relevant",
+      "question": "Among operations, investing, and financing activities, which brought in the most (or lost the least) cash flow for AMD in FY22?",
+      "gold_doc_name": "AMD_2022_10K",
+      "retrieved": [
+        {
+          "chunk_id": "financebench_id_01279_ev_0_chunk_0",
+          "doc_name": "AMD_2022_10K",
+          "doc_id": "financebench_id_01279_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_01279_ev_0_chunk_1",
+          "doc_name": "AMD_2022_10K",
+          "doc_id": "financebench_id_01279_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_00917_ev_0_chunk_4",
+          "doc_name": "AMD_2022_10K",
+          "doc_id": "financebench_id_00917_ev_0"
+        }
+      ],
+      "latency_ms": 93.6,
+      "recall": 1.0,
+      "mrr": 1.0,
+      "precision": 0.6666666666666666,
+      "failure_label": ""
+    },
+    {
+      "case_id": "financebench_id_00563",
+      "question_type": "novel-generated",
+      "question": "From FY21 to FY22, excluding Embedded, in which AMD reporting segment did sales proportionally increase the most?",
+      "gold_doc_name": "AMD_2022_10K",
+      "retrieved": [
+        {
+          "chunk_id": "financebench_id_00563_ev_0_chunk_0",
+          "doc_name": "AMD_2022_10K",
+          "doc_id": "financebench_id_00563_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_01198_ev_0_chunk_3",
+          "doc_name": "AMD_2022_10K",
+          "doc_id": "financebench_id_01198_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_00917_ev_0_chunk_3",
+          "doc_name": "AMD_2022_10K",
+          "doc_id": "financebench_id_00917_ev_0"
+        }
+      ],
+      "latency_ms": 100.5,
+      "recall": 1.0,
+      "mrr": 1.0,
+      "precision": 0.3333333333333333,
+      "failure_label": ""
+    },
+    {
+      "case_id": "financebench_id_00757",
+      "question_type": "novel-generated",
+      "question": "Did AMD report customer concentration in FY22?",
+      "gold_doc_name": "AMD_2022_10K",
+      "retrieved": [
+        {
+          "chunk_id": "financebench_id_00757_ev_0_chunk_0",
+          "doc_name": "AMD_2022_10K",
+          "doc_id": "financebench_id_00757_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_00563_ev_0_chunk_0",
+          "doc_name": "AMD_2022_10K",
+          "doc_id": "financebench_id_00563_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_00917_ev_0_chunk_3",
+          "doc_name": "AMD_2022_10K",
+          "doc_id": "financebench_id_00917_ev_0"
+        }
+      ],
+      "latency_ms": 92.7,
+      "recall": 1.0,
+      "mrr": 1.0,
+      "precision": 0.3333333333333333,
+      "failure_label": ""
+    },
+    {
+      "case_id": "financebench_id_00476",
+      "question_type": "domain-relevant",
+      "question": "Which debt securities are registered to trade on a national securities exchange under American Express' name as of 2022?",
+      "gold_doc_name": "AMERICANEXPRESS_2022_10K",
+      "retrieved": [
+        {
+          "chunk_id": "financebench_id_00476_ev_0_chunk_0",
+          "doc_name": "AMERICANEXPRESS_2022_10K",
+          "doc_id": "financebench_id_00476_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_00476_ev_0_chunk_4",
+          "doc_name": "AMERICANEXPRESS_2022_10K",
+          "doc_id": "financebench_id_00476_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_00476_ev_0_chunk_3",
+          "doc_name": "AMERICANEXPRESS_2022_10K",
+          "doc_id": "financebench_id_00476_ev_0"
+        }
+      ],
+      "latency_ms": 100.3,
+      "recall": 1.0,
+      "mrr": 1.0,
+      "precision": 1.0,
+      "failure_label": ""
+    },
+    {
+      "case_id": "financebench_id_01028",
+      "question_type": "domain-relevant",
+      "question": "What are the geographies that American Express primarily operates in as of 2022?",
+      "gold_doc_name": "AMERICANEXPRESS_2022_10K",
+      "retrieved": [
+        {
+          "chunk_id": "financebench_id_01028_ev_0_chunk_0",
+          "doc_name": "AMERICANEXPRESS_2022_10K",
+          "doc_id": "financebench_id_01028_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_01981_ev_0_chunk_3",
+          "doc_name": "AMERICANEXPRESS_2022_10K",
+          "doc_id": "financebench_id_01981_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_01981_ev_0_chunk_0",
+          "doc_name": "AMERICANEXPRESS_2022_10K",
+          "doc_id": "financebench_id_01981_ev_0"
+        }
+      ],
+      "latency_ms": 79.3,
+      "recall": 1.0,
+      "mrr": 1.0,
+      "precision": 0.3333333333333333,
+      "failure_label": ""
+    },
+    {
+      "case_id": "financebench_id_00723",
+      "question_type": "domain-relevant",
+      "question": "Does AMEX have an improving operating margin profile as of 2022? If operating margin is not a useful metric for a company like this, then state that and explain why.",
+      "gold_doc_name": "AMERICANEXPRESS_2022_10K",
+      "retrieved": [
+        {
+          "chunk_id": "financebench_id_01981_ev_0_chunk_4",
+          "doc_name": "AMERICANEXPRESS_2022_10K",
+          "doc_id": "financebench_id_01981_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_01981_ev_0_chunk_1",
+          "doc_name": "AMERICANEXPRESS_2022_10K",
+          "doc_id": "financebench_id_01981_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_01981_ev_0_chunk_3",
+          "doc_name": "AMERICANEXPRESS_2022_10K",
+          "doc_id": "financebench_id_01981_ev_0"
+        }
+      ],
+      "latency_ms": 92.3,
+      "recall": 0.0,
+      "mrr": 0.0,
+      "precision": 0.0,
+      "failure_label": ""
+    },
+    {
+      "case_id": "financebench_id_00720",
+      "question_type": "domain-relevant",
+      "question": "What drove gross margin change as of the FY2022 for American Express? If gross margin is not a useful metric for a company like this, then please state that and explain why.",
+      "gold_doc_name": "AMERICANEXPRESS_2022_10K",
+      "retrieved": [
+        {
+          "chunk_id": "financebench_id_01981_ev_0_chunk_4",
+          "doc_name": "AMERICANEXPRESS_2022_10K",
+          "doc_id": "financebench_id_01981_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_01981_ev_0_chunk_5",
+          "doc_name": "AMERICANEXPRESS_2022_10K",
+          "doc_id": "financebench_id_01981_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_01351_ev_0_chunk_1",
+          "doc_name": "AMERICANEXPRESS_2022_10K",
+          "doc_id": "financebench_id_01351_ev_0"
+        }
+      ],
+      "latency_ms": 101.2,
+      "recall": 0.0,
+      "mrr": 0.0,
+      "precision": 0.0,
+      "failure_label": ""
+    },
+    {
+      "case_id": "financebench_id_01351",
+      "question_type": "domain-relevant",
+      "question": "How much has the effective tax rate of American Express changed between FY2021 and FY2022?",
+      "gold_doc_name": "AMERICANEXPRESS_2022_10K",
+      "retrieved": [
+        {
+          "chunk_id": "financebench_id_01351_ev_0_chunk_1",
+          "doc_name": "AMERICANEXPRESS_2022_10K",
+          "doc_id": "financebench_id_01351_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_01351_ev_0_chunk_0",
+          "doc_name": "AMERICANEXPRESS_2022_10K",
+          "doc_id": "financebench_id_01351_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_01981_ev_0_chunk_3",
+          "doc_name": "AMERICANEXPRESS_2022_10K",
+          "doc_id": "financebench_id_01981_ev_0"
+        }
+      ],
+      "latency_ms": 81.2,
+      "recall": 1.0,
+      "mrr": 1.0,
+      "precision": 0.6666666666666666,
+      "failure_label": ""
+    },
+    {
+      "case_id": "financebench_id_01964",
+      "question_type": "novel-generated",
+      "question": "What was the largest liability in American Express's Balance Sheet in 2022?",
+      "gold_doc_name": "AMERICANEXPRESS_2022_10K",
+      "retrieved": [
+        {
+          "chunk_id": "financebench_id_01964_ev_0_chunk_1",
+          "doc_name": "AMERICANEXPRESS_2022_10K",
+          "doc_id": "financebench_id_01964_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_01964_ev_0_chunk_0",
+          "doc_name": "AMERICANEXPRESS_2022_10K",
+          "doc_id": "financebench_id_01964_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_01981_ev_0_chunk_3",
+          "doc_name": "AMERICANEXPRESS_2022_10K",
+          "doc_id": "financebench_id_01981_ev_0"
+        }
+      ],
+      "latency_ms": 89.4,
+      "recall": 1.0,
+      "mrr": 1.0,
+      "precision": 0.6666666666666666,
+      "failure_label": ""
+    },
+    {
+      "case_id": "financebench_id_01981",
+      "question_type": "novel-generated",
+      "question": "Was American Express able to retain card members during 2022?",
+      "gold_doc_name": "AMERICANEXPRESS_2022_10K",
+      "retrieved": [
+        {
+          "chunk_id": "financebench_id_01981_ev_0_chunk_3",
+          "doc_name": "AMERICANEXPRESS_2022_10K",
+          "doc_id": "financebench_id_01981_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_01981_ev_0_chunk_0",
+          "doc_name": "AMERICANEXPRESS_2022_10K",
+          "doc_id": "financebench_id_01981_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_01964_ev_0_chunk_0",
+          "doc_name": "AMERICANEXPRESS_2022_10K",
+          "doc_id": "financebench_id_01964_ev_0"
+        }
+      ],
+      "latency_ms": 88.3,
+      "recall": 1.0,
+      "mrr": 1.0,
+      "precision": 0.6666666666666666,
+      "failure_label": ""
+    },
+    {
+      "case_id": "financebench_id_05718",
+      "question_type": "metrics-generated",
+      "question": "How much (in USD billions) did American Water Works pay out in cash dividends for FY2020? Compute or extract the answer by primarily using the details outlined in the statement of cash flows.",
+      "gold_doc_name": "AMERICANWATERWORKS_2020_10K",
+      "retrieved": [
+        {
+          "chunk_id": "financebench_id_05718_ev_0_chunk_3",
+          "doc_name": "AMERICANWATERWORKS_2020_10K",
+          "doc_id": "financebench_id_05718_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_05718_ev_0_chunk_2",
+          "doc_name": "AMERICANWATERWORKS_2020_10K",
+          "doc_id": "financebench_id_05718_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_05718_ev_0_chunk_0",
+          "doc_name": "AMERICANWATERWORKS_2020_10K",
+          "doc_id": "financebench_id_05718_ev_0"
+        }
+      ],
+      "latency_ms": 96.6,
+      "recall": 1.0,
+      "mrr": 1.0,
+      "precision": 1.0,
+      "failure_label": ""
+    },
+    {
+      "case_id": "financebench_id_04254",
+      "question_type": "metrics-generated",
+      "question": "Basing your judgments off of the cash flow statement and the income statement, what is American Water Works's FY2021 unadjusted operating income + depreciation and amortization from the cash flow statement (unadjusted EBITDA) in USD millions?",
+      "gold_doc_name": "AMERICANWATERWORKS_2021_10K",
+      "retrieved": [
+        {
+          "chunk_id": "financebench_id_04254_ev_1_chunk_0",
+          "doc_name": "AMERICANWATERWORKS_2021_10K",
+          "doc_id": "financebench_id_04254_ev_1"
+        },
+        {
+          "chunk_id": "financebench_id_04254_ev_1_chunk_2",
+          "doc_name": "AMERICANWATERWORKS_2021_10K",
+          "doc_id": "financebench_id_04254_ev_1"
+        },
+        {
+          "chunk_id": "financebench_id_04254_ev_1_chunk_3",
+          "doc_name": "AMERICANWATERWORKS_2021_10K",
+          "doc_id": "financebench_id_04254_ev_1"
+        }
+      ],
+      "latency_ms": 104.0,
+      "recall": 0.5,
+      "mrr": 1.0,
+      "precision": 1.0,
+      "failure_label": ""
+    },
+    {
+      "case_id": "financebench_id_00070",
+      "question_type": "domain-relevant",
+      "question": "Does American Water Works have positive working capital based on FY2022 data? If working capital is not a useful or relevant metric for this company, then please state that and explain why.",
+      "gold_doc_name": "AMERICANWATERWORKS_2022_10K",
+      "retrieved": [
+        {
+          "chunk_id": "financebench_id_00070_ev_1_chunk_1",
+          "doc_name": "AMERICANWATERWORKS_2022_10K",
+          "doc_id": "financebench_id_00070_ev_1"
+        },
+        {
+          "chunk_id": "financebench_id_00070_ev_1_chunk_0",
+          "doc_name": "AMERICANWATERWORKS_2022_10K",
+          "doc_id": "financebench_id_00070_ev_1"
+        },
+        {
+          "chunk_id": "financebench_id_00070_ev_0_chunk_0",
+          "doc_name": "AMERICANWATERWORKS_2022_10K",
+          "doc_id": "financebench_id_00070_ev_0"
+        }
+      ],
+      "latency_ms": 95.3,
+      "recall": 1.0,
+      "mrr": 1.0,
+      "precision": 1.0,
+      "failure_label": ""
+    },
+    {
+      "case_id": "financebench_id_02608",
+      "question_type": "metrics-generated",
+      "question": "In agreement with the information outlined in the income statement, what is the FY2015 - FY2017 3 year average net profit margin (as a %) for Best Buy? Answer in units of percents and round to one decimal place.",
+      "gold_doc_name": "BESTBUY_2017_10K",
+      "retrieved": [
+        {
+          "chunk_id": "financebench_id_02608_ev_0_chunk_0",
+          "doc_name": "BESTBUY_2017_10K",
+          "doc_id": "financebench_id_02608_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_02608_ev_0_chunk_1",
+          "doc_name": "BESTBUY_2017_10K",
+          "doc_id": "financebench_id_02608_ev_0"
+        }
+      ],
+      "latency_ms": 110.6,
+      "recall": 1.0,
+      "mrr": 1.0,
+      "precision": 1.0,
+      "failure_label": ""
+    },
+    {
+      "case_id": "financebench_id_04417",
+      "question_type": "metrics-generated",
+      "question": "What is the year end FY2019 total amount of inventories for Best Buy? Answer in USD millions. Base your judgments on the information provided primarily in the balance sheet.",
+      "gold_doc_name": "BESTBUY_2019_10K",
+      "retrieved": [
+        {
+          "chunk_id": "financebench_id_04417_ev_0_chunk_0",
+          "doc_name": "BESTBUY_2019_10K",
+          "doc_id": "financebench_id_04417_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_04417_ev_0_chunk_1",
+          "doc_name": "BESTBUY_2019_10K",
+          "doc_id": "financebench_id_04417_ev_0"
+        }
+      ],
+      "latency_ms": 93.1,
+      "recall": 1.0,
+      "mrr": 1.0,
+      "precision": 1.0,
+      "failure_label": ""
+    }
+  ]
+}

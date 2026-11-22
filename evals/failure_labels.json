@@ -3,7 +3,8 @@
   "_label_set": {
     "company_mismatch": "Retrieved chunks are from a different company's filing",
     "year_mismatch": "Right company, wrong fiscal year / period",
-    "right_doc_wrong_page": "Right filing retrieved, but not the gold page"
+    "right_doc_wrong_page": "Right filing retrieved, but not the gold page",
+    "right_company_wrong_report": "Right company and period, but a different report (e.g. earnings release or 8-K instead of the 10-K)"
   },
   "_hypotheses": {
     "H1_chunk_lacks_context": "Chunks after the top of a page don't contain the company name, year or units, so the embedding can't link them to the right company. Status: SUPPORTED for company matching. With the header (retriever_4_header) there are 0 pure company mismatches among the misses (was 4). Recall@3 stayed at 60%, because new year and page failures appeared.",
@@ -66,7 +67,31 @@
       "financebench_id_00807": {"label": "right_doc_wrong_page", "suspected_cause": ["H3_question_vocab_gap"], "notes": "Only remaining complete miss. 'Healthy liquidity based on quick ratio, Q2 FY2023?' Filter keeps the right report; search still picks the wrong page."}
     }
   },
+  "run_H4_filter_TEST": {
+    "run": "20261122_215625_retriever_7_filter_test: H4 on frozen_test_30. THE HONEST RELEASE SCORE for the retriever.",
+    "summary": "Recall 73.3%, MRR 76.7%, precision 62.2%, complete misses 7/30 (dev was 76.7% / 88.3% / 1/20).",
+    "root_causes": {
+      "split_mismatch": "load_data.py took rows in file order; FinanceBench is sorted by company, so dev = 3M/Adobe/AES/Activision/Amazon, test = Amcor/AMD/AmEx/AmWater/BestBuy. Only Amazon is in both. Dev could not show test's naming problems.",
+      "step1_extraction_bugs": "Company/year reading failed on test: case ('AMCOR' vs stored 'Amcor'), 2-digit years ('FY22'), nicknames ('AMEX'). The H4 dev caveat named the wrong risk: questions do name the company, but spell it differently."
+    },
+    "labels": {
+      "financebench_id_00799": {"label": "right_company_wrong_report", "suspected_cause": ["step1_case_bug", "H3_question_vocab_gap"], "notes": "'AMCOR quick ratio FY22 vs FY23?' No filter ran. Got earnings release + 8-K; gold is the balance sheet in AMCOR_2023_10K."},
+      "financebench_id_00684": {"label": "right_doc_wrong_page", "suspected_cause": ["step1_case_bug", "H3_question_vocab_gap"], "notes": "'AMCOR improving gross margin FY2023?' Got AMCOR_2023_10K balance sheet + earnings; gold is the income statement."},
+      "financebench_id_00222": {"label": "right_doc_wrong_page", "suspected_cause": ["H3_question_vocab_gap"], "notes": "'AMD healthy liquidity, quick ratio FY22?' All 3 from AMD_2022_10K, not the balance sheet."},
+      "financebench_id_00995": {"label": "right_doc_wrong_page", "suspected_cause": [], "notes": "'Major products AMD sells FY22?' Factual, not a judgement question. Gold is Item 1 Business; got other AMD_2022_10K pages. Cause not yet investigated."},
+      "financebench_id_01279": {"label": "year_mismatch", "suspected_cause": ["step1_fy2digit_bug"], "notes": "'AMD cash flow FY22' -> 'FY22' not read, no year filter, got AMD_2015_10K x3."},
+      "financebench_id_00723": {"label": "right_doc_wrong_page", "suspected_cause": ["step1_nickname_bug", "H3_question_vocab_gap"], "notes": "'AMEX improving operating margin 2022?' Got AmEx 10K pages, not the income statement. Expected answer: op margin isn't used for AmEx."},
+      "financebench_id_00720": {"label": "right_doc_wrong_page", "suspected_cause": ["H3_question_vocab_gap"], "notes": "'What drove AmEx gross margin change FY2022?' Same gold page as 00723 (income statement); got other pages."}
+    }
+  },
+  "run_H4b_filter_fix": {
+    "run": "retriever_8_filter_fix: extract_filters ignores case (first letter must be uppercase, so 'block' != Block), reads FY22 as 2022, knows AMEX = American Express.",
+    "unit_test": "evals/test_3_extract_filters.py, 7 hand-written cases, 7/7 pass.",
+    "dev2": "New fair dev set data/dev2_20.json (make_dev2.py: 20 unused questions, 20 companies, seed 42). H4 and H4b score identically: recall 80%, MRR 81.7%, misses 3. Step 1 differs on only 1/20 case (01476 'Pepsico'), and search already found it via the H1 company header. Fix does no harm; dev2 can't show a gain.",
+    "test_CONTAMINATED": "20261122_232537_retriever_8_filter_fix_test. NOT a release score: fix was chosen after seeing these failures. Recall 73.3% -> 76.7%, MRR 76.7% -> 80.0%, misses 7 -> 6. Only 01279 fixed (year filter now removes AMD_2015). Predicted 3 fixes.",
+    "conclusion": "Step 1 bugs fixed. The remaining 6 test misses are ranking problems inside the right reports: the filter now allows the right report (e.g. 00799 keeps AMCOR_2023_10K) but the embedding doesn't link 'quick ratio' / 'margin' to the balance sheet / income statement. That is H3; a filter cannot fix it."
+  },
   "_hypotheses_new": {
-    "H3_question_vocab_gap": "Judgement questions ('is X capital-intensive?', 'healthy liquidity?') use words that don't appear on the page that answers them (a balance sheet never says 'quick ratio'). Status: suspected from the 3 H2 misses, not yet tested."
+    "H3_question_vocab_gap": "Judgement questions ('is X capital-intensive?', 'healthy liquidity?') use words that don't appear on the page that answers them (a balance sheet never says 'quick ratio'). Status: STRONGLY SUPPORTED. 3/3 H2 dev misses and 5/6 H4b test misses fit it. Not yet tested with a fix."
   }
 }
