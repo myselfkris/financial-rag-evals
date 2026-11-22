@@ -58,6 +58,14 @@
       }
     }
   },
+  "run_H4_filter": {
+    "run": "retriever_7_filter on dev (H2 index + company/year filter read from the question)",
+    "step1_extraction": "Company read correctly 20/20; right report kept 20/20. Caveat: FinanceBench questions always name the company and year, so this set cannot test questions that don't.",
+    "changes_vs_H2": "Recall 67.5% -> 76.7%, MRR 77.5% -> 88.3%, precision 61.7% -> 76.7%, complete misses 3 -> 1. Latency p50 109 ms.",
+    "labels": {
+      "financebench_id_00807": {"label": "right_doc_wrong_page", "suspected_cause": ["H3_question_vocab_gap"], "notes": "Only remaining complete miss. 'Healthy liquidity based on quick ratio, Q2 FY2023?' Filter keeps the right report; search still picks the wrong page."}
+    }
+  },
   "_hypotheses_new": {
     "H3_question_vocab_gap": "Judgement questions ('is X capital-intensive?', 'healthy liquidity?') use words that don't appear on the page that answers them (a balance sheet never says 'quick ratio'). Status: suspected from the 3 H2 misses, not yet tested."
   }
