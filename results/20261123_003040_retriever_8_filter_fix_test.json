@@ -1,0 +1,976 @@
+{
+  "run_id": "20261123_003040_retriever_8_filter_fix_test",
+  "config": {
+    "retriever": "retriever_8_filter_fix",
+    "collection": "financebench_h2_bge_base",
+    "retriever_file_hash": "2fe732084105",
+    "split": "test",
+    "split_file_hash": "be2cf591afec",
+    "k": 3,
+    "n_cases": 30,
+    "judge_model": "deepseek-flash",
+    "note": "CONTAMINATED for retriever; judge layer check: code recall vs DeepEval ctx_recall"
+  },
+  "summary": {
+    "recall": 0.7666666666666667,
+    "mrr": 0.8,
+    "precision": 0.6444444444444444,
+    "complete_misses": 6,
+    "latency_ms_avg": 1369.8066666666668,
+    "latency_ms_p50": 242.4,
+    "latency_ms_p95": 308.8,
+    "ctx_recall": 0.7416666666666667,
+    "ctx_precision": 0.8555555555555555,
+    "disagreements": [
+      "financebench_id_00222",
+      "financebench_id_00995"
+    ]
+  },
+  "cases": [
+    {
+      "case_id": "financebench_id_08286",
+      "question_type": "metrics-generated",
+      "question": "By drawing conclusions from the information stated only in the income statement, what is Amazon's FY2019 net income attributable to shareholders (in USD millions)?",
+      "gold_doc_name": "AMAZON_2019_10K",
+      "retrieved": [
+        {
+          "chunk_id": "financebench_id_08286_ev_0_chunk_1",
+          "doc_name": "AMAZON_2019_10K",
+          "doc_id": "financebench_id_08286_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_08286_ev_0_chunk_0",
+          "doc_name": "AMAZON_2019_10K",
+          "doc_id": "financebench_id_08286_ev_0"
+        }
+      ],
+      "latency_ms": 34073.9,
+      "recall": 1.0,
+      "mrr": 1.0,
+      "precision": 1.0,
+      "failure_label": "",
+      "ctx_recall": 1.0,
+      "ctx_recall_reason": "The score is 1.00 because the expected output’s Amazon net income value and line item are fully supported by node 1 in retrieval context, with no unsupported claims.",
+      "ctx_precision": 1.0,
+      "ctx_precision_reason": "The score is 1.00 because all nodes in the retrieval contexts are relevant and properly ranked, with the first node directly showing FY2019 net income and the second supporting it—no irrelevant nodes need to be ranked lower. Great job!"
+    },
+    {
+      "case_id": "financebench_id_03882",
+      "question_type": "metrics-generated",
+      "question": "What is Amcor's year end FY2020 net AR (in USD millions)? Address the question by adopting the perspective of a financial analyst who can only use the details shown within the balance sheet.",
+      "gold_doc_name": "AMCOR_2020_10K",
+      "retrieved": [
+        {
+          "chunk_id": "financebench_id_03882_ev_0_chunk_0",
+          "doc_name": "AMCOR_2020_10K",
+          "doc_id": "financebench_id_03882_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_03882_ev_0_chunk_1",
+          "doc_name": "AMCOR_2020_10K",
+          "doc_id": "financebench_id_03882_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_03882_ev_0_chunk_2",
+          "doc_name": "AMCOR_2020_10K",
+          "doc_id": "financebench_id_03882_ev_0"
+        }
+      ],
+      "latency_ms": 271.2,
+      "recall": 1.0,
+      "mrr": 1.0,
+      "precision": 1.0,
+      "failure_label": "",
+      "ctx_recall": 1.0,
+      "ctx_recall_reason": "The score is 1.00 because the expected output is fully supported by node 1 in retrieval context, which contains the exact line item 'Trade receivables, net 1,615.9' needed to justify the reported value and metric description.",
+      "ctx_precision": 1.0,
+      "ctx_precision_reason": "The score is 1.00 because every node in the retrieval contexts is relevant to Amcor’s FY2020 net accounts receivable, with the strongest balance-sheet line items appearing at the top; there are no irrelevant nodes that should be ranked lower."
+    },
+    {
+      "case_id": "financebench_id_01935",
+      "question_type": "novel-generated",
+      "question": "What was the key agenda of the AMCOR's 8k filing dated 1st July 2022?",
+      "gold_doc_name": "AMCOR_2022_8K_dated-2022-07-01",
+      "retrieved": [
+        {
+          "chunk_id": "financebench_id_01935_ev_0_chunk_3",
+          "doc_name": "AMCOR_2022_8K_dated-2022-07-01",
+          "doc_id": "financebench_id_01935_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_01935_ev_0_chunk_4",
+          "doc_name": "AMCOR_2022_8K_dated-2022-07-01",
+          "doc_id": "financebench_id_01935_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_01935_ev_0_chunk_2",
+          "doc_name": "AMCOR_2022_8K_dated-2022-07-01",
+          "doc_id": "financebench_id_01935_ev_0"
+        }
+      ],
+      "latency_ms": 251.2,
+      "recall": 1.0,
+      "mrr": 1.0,
+      "precision": 1.0,
+      "failure_label": "",
+      "ctx_recall": 0.6666666666666666,
+      "ctx_recall_reason": "The score is 0.67 because sentence 1 and most of sentence 2 are supported by nodes 1–3 in retrieval context, which mention the issuers, supplemental indentures, notes due 2026 and 2028, and the substitution/assumption of covenants; however, the “novation agreement” characterization at the end of sentence 2 is unsupported because no node in retrieval context mentions a novation agreement.",
+      "ctx_precision": 1.0,
+      "ctx_precision_reason": "The score is 1.00 because all nodes in the retrieval contexts are relevant to the key agenda of AMCOR's 8-K filing and are ranked appropriately, with no irrelevant nodes ahead of them. Great retrieval!"
+    },
+    {
+      "case_id": "financebench_id_00799",
+      "question_type": "domain-relevant",
+      "question": "Has AMCOR's quick ratio improved or declined between FY2023 and FY2022? If the quick ratio is not something that a financial analyst would ask about a company like this, then state that and explain why.",
+      "gold_doc_name": "AMCOR_2023_10K",
+      "retrieved": [
+        {
+          "chunk_id": "financebench_id_01930_ev_0_chunk_0",
+          "doc_name": "AMCOR_2023Q4_EARNINGS",
+          "doc_id": "financebench_id_01930_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_01935_ev_0_chunk_2",
+          "doc_name": "AMCOR_2022_8K_dated-2022-07-01",
+          "doc_id": "financebench_id_01935_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_01935_ev_0_chunk_1",
+          "doc_name": "AMCOR_2022_8K_dated-2022-07-01",
+          "doc_id": "financebench_id_01935_ev_0"
+        }
+      ],
+      "latency_ms": 283.9,
+      "recall": 0.0,
+      "mrr": 0.0,
+      "precision": 0.0,
+      "failure_label": "",
+      "ctx_recall": 0.0,
+      "ctx_recall_reason": "The score is 0.00 because the expected output sentence about Amcor’s quick ratio, current assets, inventory, and FY2023/FY2022 figures is unsupported by any node(s) in retrieval context; node 1 discusses net sales growth and nodes 2/3 discuss indenture substitution, with no relevant quick-ratio data.",
+      "ctx_precision": 0,
+      "ctx_precision_reason": "The score is 0.00 because all nodes in the retrieval contexts are irrelevant: the first node discusses 'Components of Fiscal 2023 Net Sales growth' and sales figures without quick-ratio data, the second node covers 'Item 8.01 Other Events' and 'substitution of the Substitute Issuer', and the third node discusses 'Supplemental Indentures' and 'Guaranteed Senior Notes' rather than balance sheet items. Since no relevant nodes are present, contextual precision cannot be higher."
+    },
+    {
+      "case_id": "financebench_id_01079",
+      "question_type": "domain-relevant",
+      "question": "What are major acquisitions that AMCOR has done in FY2023, FY2022 and FY2021?",
+      "gold_doc_name": "AMCOR_2023_10K",
+      "retrieved": [
+        {
+          "chunk_id": "financebench_id_01079_ev_0_chunk_2",
+          "doc_name": "AMCOR_2023_10K",
+          "doc_id": "financebench_id_01079_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_01079_ev_0_chunk_1",
+          "doc_name": "AMCOR_2023_10K",
+          "doc_id": "financebench_id_01079_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_01079_ev_0_chunk_0",
+          "doc_name": "AMCOR_2023_10K",
+          "doc_id": "financebench_id_01079_ev_0"
+        }
+      ],
+      "latency_ms": 224.8,
+      "recall": 1.0,
+      "mrr": 1.0,
+      "precision": 1.0,
+      "failure_label": "",
+      "ctx_recall": 1.0,
+      "ctx_recall_reason": "The score is 1 because all acquisition details in the expected output are clearly supported by the node(s) in retrieval context, including the Amcor/AMCOR_2023_10K identification and each listed acquisition.",
+      "ctx_precision": 1.0,
+      "ctx_precision_reason": "The score is 1.00 because all nodes in the retrieval contexts are relevant to the input and are ranked appropriately, with the first, second, and third nodes all directly covering Amcor's FY2023 acquisitions."
+    },
+    {
+      "case_id": "financebench_id_01148",
+      "question_type": "domain-relevant",
+      "question": "What industry does AMCOR primarily operate in?",
+      "gold_doc_name": "AMCOR_2023_10K",
+      "retrieved": [
+        {
+          "chunk_id": "financebench_id_01148_ev_0_chunk_4",
+          "doc_name": "AMCOR_2023_10K",
+          "doc_id": "financebench_id_01148_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_01148_ev_0_chunk_2",
+          "doc_name": "AMCOR_2023_10K",
+          "doc_id": "financebench_id_01148_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_01148_ev_0_chunk_0",
+          "doc_name": "AMCOR_2023_10K",
+          "doc_id": "financebench_id_01148_ev_0"
+        }
+      ],
+      "latency_ms": 194.2,
+      "recall": 1.0,
+      "mrr": 1.0,
+      "precision": 1.0,
+      "failure_label": "",
+      "ctx_recall": 1.0,
+      "ctx_recall_reason": "The score is 1.00 because sentence 1 is fully supported by node 3 in retrieval context, which describes Amcor as a global leader in developing and producing responsible packaging for food, beverage, pharmaceutical, medical, home and personal-care, and other products.",
+      "ctx_precision": 1.0,
+      "ctx_precision_reason": "The score is 1.00 because all nodes in the retrieval contexts are relevant to Amcor’s packaging industry, with no irrelevant nodes ranked above them, so the ranking is perfectly precise."
+    },
+    {
+      "case_id": "financebench_id_00684",
+      "question_type": "domain-relevant",
+      "question": "Does AMCOR have an improving gross margin profile as of FY2023? If gross margin is not a useful metric for a company like this, then state that and explain why.",
+      "gold_doc_name": "AMCOR_2023_10K",
+      "retrieved": [
+        {
+          "chunk_id": "financebench_id_01930_ev_0_chunk_0",
+          "doc_name": "AMCOR_2023Q4_EARNINGS",
+          "doc_id": "financebench_id_01930_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_00799_ev_0_chunk_0",
+          "doc_name": "AMCOR_2023_10K",
+          "doc_id": "financebench_id_00799_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_01928_ev_0_chunk_1",
+          "doc_name": "AMCOR_2023Q4_EARNINGS",
+          "doc_id": "financebench_id_01928_ev_0"
+        }
+      ],
+      "latency_ms": 253.0,
+      "recall": 0.0,
+      "mrr": 0.0,
+      "precision": 0.0,
+      "failure_label": "",
+      "ctx_recall": 0.0,
+      "ctx_recall_reason": "The score is 0.00 because expected output sentence 1's “No” is not supported by node 2 in retrieval context, which identifies Amcor/AMCOR_2023_10K but gives no negative answer, and sentence 2's 0.8% gross-margin decline and gross-profit values 2,725/2,820 are absent from node 1 in retrieval context, which only contains net sales 14,694/14,544.",
+      "ctx_precision": 1.0,
+      "ctx_precision_reason": "The score is 1.00 because the first node in retrieval contexts is highly relevant, providing the net sales figures needed for gross margin comparison, while the later nodes are irrelevant and correctly ranked below it. Perfect ranking!"
+    },
+    {
+      "case_id": "financebench_id_01936",
+      "question_type": "novel-generated",
+      "question": "What is the nature & purpose of AMCOR's restructuring liability as oF Q2 of FY2023 close?",
+      "gold_doc_name": "AMCOR_2023Q2_10Q",
+      "retrieved": [
+        {
+          "chunk_id": "financebench_id_01936_ev_0_chunk_1",
+          "doc_name": "AMCOR_2023Q2_10Q",
+          "doc_id": "financebench_id_01936_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_01936_ev_0_chunk_0",
+          "doc_name": "AMCOR_2023Q2_10Q",
+          "doc_id": "financebench_id_01936_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_01928_ev_0_chunk_3",
+          "doc_name": "AMCOR_2023Q4_EARNINGS",
+          "doc_id": "financebench_id_01928_ev_0"
+        }
+      ],
+      "latency_ms": 238.5,
+      "recall": 1.0,
+      "mrr": 1.0,
+      "precision": 0.6666666666666666,
+      "failure_label": "",
+      "ctx_recall": 1.0,
+      "ctx_recall_reason": "The score is 1.00 because sentence 1 is fully supported by node 1 in retrieval context, where Employee Costs of $81 out of $93 total is approximately 87%.",
+      "ctx_precision": 1.0,
+      "ctx_precision_reason": "The score is 1.00 because the relevant node is ranked first and directly provides the restructuring liability details, while the later irrelevant nodes are ranked below it."
+    },
+    {
+      "case_id": "financebench_id_01928",
+      "question_type": "novel-generated",
+      "question": "What Was AMCOR's Adjusted Non GAAP EBITDA for FY 2023",
+      "gold_doc_name": "AMCOR_2023Q4_EARNINGS",
+      "retrieved": [
+        {
+          "chunk_id": "financebench_id_01928_ev_0_chunk_1",
+          "doc_name": "AMCOR_2023Q4_EARNINGS",
+          "doc_id": "financebench_id_01928_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_01928_ev_0_chunk_0",
+          "doc_name": "AMCOR_2023Q4_EARNINGS",
+          "doc_id": "financebench_id_01928_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_01928_ev_0_chunk_2",
+          "doc_name": "AMCOR_2023Q4_EARNINGS",
+          "doc_id": "financebench_id_01928_ev_0"
+        }
+      ],
+      "latency_ms": 256.7,
+      "recall": 1.0,
+      "mrr": 1.0,
+      "precision": 1.0,
+      "failure_label": "",
+      "ctx_recall": 1.0,
+      "ctx_recall_reason": "The score is 1 because sentence 1 is fully supported by node(s) in retrieval context 1 and 3, which directly confirm Amcor's FY 2023 Adjusted EBITDA of $2,018mn.",
+      "ctx_precision": 0.8333333333333333,
+      "ctx_precision_reason": "The score is 0.83 because the first node in the retrieval contexts is relevant, containing 'Adjusted EBITDA' with '2,117' and '2,018', but the second node is irrelevant and is ranked above the third relevant node that explicitly shows 'Adjusted EBITDA' and '2,018'. The irrelevant node ranked second should be lower than the relevant node ranked third, which prevents a perfect score."
+    },
+    {
+      "case_id": "financebench_id_01930",
+      "question_type": "novel-generated",
+      "question": "How much was the Real change in Sales for AMCOR in FY 2023 vs FY 2022, if we exclude the impact of FX movement, passthrough costs and one-off items?",
+      "gold_doc_name": "AMCOR_2023Q4_EARNINGS",
+      "retrieved": [
+        {
+          "chunk_id": "financebench_id_01930_ev_0_chunk_0",
+          "doc_name": "AMCOR_2023Q4_EARNINGS",
+          "doc_id": "financebench_id_01930_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_00799_ev_0_chunk_0",
+          "doc_name": "AMCOR_2023_10K",
+          "doc_id": "financebench_id_00799_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_01928_ev_0_chunk_1",
+          "doc_name": "AMCOR_2023Q4_EARNINGS",
+          "doc_id": "financebench_id_01928_ev_0"
+        }
+      ],
+      "latency_ms": 264.1,
+      "recall": 1.0,
+      "mrr": 1.0,
+      "precision": 0.3333333333333333,
+      "failure_label": "",
+      "ctx_recall": 1.0,
+      "ctx_recall_reason": "The score is 1 because sentence 1’s claim that real growth was flat is directly supported by node 1 in retrieval context, where the volume and price/mix percentages offset to zero. Great match!",
+      "ctx_precision": 1.0,
+      "ctx_precision_reason": "The score is 1.00 because the first node directly provides the sales-growth table with all needed adjustments, and the later irrelevant nodes are correctly ranked lower."
+    },
+    {
+      "case_id": "financebench_id_03069",
+      "question_type": "metrics-generated",
+      "question": "Answer the following question as if you are an equity research analyst and have lost internet connection so you do not have access to financial metric providers. According to the details clearly outlined within the P&L statement and the statement of cash flows, what is the FY2015 depreciation and amortization (D&A from cash flow statement) % margin for AMD?",
+      "gold_doc_name": "AMD_2015_10K",
+      "retrieved": [
+        {
+          "chunk_id": "financebench_id_03069_ev_1_chunk_0",
+          "doc_name": "AMD_2015_10K",
+          "doc_id": "financebench_id_03069_ev_1"
+        },
+        {
+          "chunk_id": "financebench_id_03069_ev_1_chunk_1",
+          "doc_name": "AMD_2015_10K",
+          "doc_id": "financebench_id_03069_ev_1"
+        },
+        {
+          "chunk_id": "financebench_id_03069_ev_1_chunk_2",
+          "doc_name": "AMD_2015_10K",
+          "doc_id": "financebench_id_03069_ev_1"
+        }
+      ],
+      "latency_ms": 309.6,
+      "recall": 0.5,
+      "mrr": 1.0,
+      "precision": 1.0,
+      "failure_label": "",
+      "ctx_recall": 0.3333333333333333,
+      "ctx_recall_reason": "The score is 0.33 because only the Metric 1 sentence (Depreciation and amortization) is supported by the node(s) in retrieval context, specifically node 1, while sentence 1’s 4.2% calculation via simpler metrics and sentence 3’s Total/Net revenue claim are unsupported by any node.",
+      "ctx_precision": 1.0,
+      "ctx_precision_reason": "The score is 1.00 because the first node in the retrieval contexts directly provides the FY2015 'Depreciation and amortization' line, while the second and third nodes are irrelevant and correctly ranked lower."
+    },
+    {
+      "case_id": "financebench_id_00222",
+      "question_type": "domain-relevant",
+      "question": "Does AMD have a reasonably healthy liquidity profile based on its quick ratio for FY22? If the quick ratio is not relevant to measure liquidity, please state that and explain why.",
+      "gold_doc_name": "AMD_2022_10K",
+      "retrieved": [
+        {
+          "chunk_id": "financebench_id_01198_ev_0_chunk_1",
+          "doc_name": "AMD_2022_10K",
+          "doc_id": "financebench_id_01198_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_00917_ev_0_chunk_1",
+          "doc_name": "AMD_2022_10K",
+          "doc_id": "financebench_id_00917_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_00563_ev_0_chunk_0",
+          "doc_name": "AMD_2022_10K",
+          "doc_id": "financebench_id_00563_ev_0"
+        }
+      ],
+      "latency_ms": 308.8,
+      "recall": 0.0,
+      "mrr": 0.0,
+      "precision": 0.0,
+      "failure_label": "",
+      "ctx_recall": 0.5,
+      "ctx_recall_reason": "The score is 0.50 because sentence 1 is supported by node(s) in retrieval context 1, 2, and 3 identifying AMD and the AMD_2022_10K filing, but sentence 2's quick ratio calculation and related financial line items are not mentioned in those nodes, which instead discuss MD&A, segments, and operations.",
+      "ctx_precision": 0,
+      "ctx_precision_reason": "The score is 0.00 because all nodes in the retrieval contexts are irrelevant. The first node discusses AMD's 2022 Xilinx acquisition and business overview but does not mention the 'quick ratio' or liquidity components; the second node duplicates that overview and provides no 'quick ratio' information; and the third node covers reporting segments and seasonal results rather than liquidity or 'current liabilities'. Since there are no relevant nodes to rank above these irrelevant nodes, the contextual precision cannot be higher."
+    },
+    {
+      "case_id": "financebench_id_00995",
+      "question_type": "domain-relevant",
+      "question": "What are the major products and services that AMD sells as of FY22?",
+      "gold_doc_name": "AMD_2022_10K",
+      "retrieved": [
+        {
+          "chunk_id": "financebench_id_00757_ev_0_chunk_0",
+          "doc_name": "AMD_2022_10K",
+          "doc_id": "financebench_id_00757_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_01198_ev_0_chunk_2",
+          "doc_name": "AMD_2022_10K",
+          "doc_id": "financebench_id_01198_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_00917_ev_0_chunk_2",
+          "doc_name": "AMD_2022_10K",
+          "doc_id": "financebench_id_00917_ev_0"
+        }
+      ],
+      "latency_ms": 218.1,
+      "recall": 0.0,
+      "mrr": 0.0,
+      "precision": 0.0,
+      "failure_label": "",
+      "ctx_recall": 1.0,
+      "ctx_recall_reason": "The score is 1.00 because the expected output is fully supported by the node(s) in retrieval context, which collectively mention CPUs, GPUs, APUs, FPGAs, DPUs, Adaptive SoCs, and related design/development services.",
+      "ctx_precision": 1.0,
+      "ctx_precision_reason": "The score is 1.00 because all three nodes in the retrieval contexts are relevant to AMD’s FY22 products and services, and they are ranked appropriately with the most directly supporting product details near the top. Great retrieval precision!"
+    },
+    {
+      "case_id": "financebench_id_01198",
+      "question_type": "domain-relevant",
+      "question": "What drove revenue change as of the FY22 for AMD?",
+      "gold_doc_name": "AMD_2022_10K",
+      "retrieved": [
+        {
+          "chunk_id": "financebench_id_01198_ev_0_chunk_3",
+          "doc_name": "AMD_2022_10K",
+          "doc_id": "financebench_id_01198_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_00917_ev_0_chunk_3",
+          "doc_name": "AMD_2022_10K",
+          "doc_id": "financebench_id_00917_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_01198_ev_0_chunk_4",
+          "doc_name": "AMD_2022_10K",
+          "doc_id": "financebench_id_01198_ev_0"
+        }
+      ],
+      "latency_ms": 242.4,
+      "recall": 1.0,
+      "mrr": 1.0,
+      "precision": 1.0,
+      "failure_label": "",
+      "ctx_recall": 1.0,
+      "ctx_recall_reason": "The score is 1.00 because sentence 1 is fully supported by node 1 in retrieval context, which explicitly lists higher EPYC server processor sales, higher semi-custom product sales, and Xilinx embedded product sales—great match!",
+      "ctx_precision": 1.0,
+      "ctx_precision_reason": "The score is 1.00 because the first and second nodes directly state that revenue increased due to 'higher sales of our EPYC server processors', 'higher semi-custom product sales', and 'the inclusion of Xilinx embedded product sales', while the third node is irrelevant and correctly ranked lower."
+    },
+    {
+      "case_id": "financebench_id_00917",
+      "question_type": "domain-relevant",
+      "question": "What drove operating margin change as of the FY22 for AMD? If operating margin is not a useful metric for a company like this, then please state that and explain why.",
+      "gold_doc_name": "AMD_2022_10K",
+      "retrieved": [
+        {
+          "chunk_id": "financebench_id_01198_ev_0_chunk_4",
+          "doc_name": "AMD_2022_10K",
+          "doc_id": "financebench_id_01198_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_00917_ev_0_chunk_4",
+          "doc_name": "AMD_2022_10K",
+          "doc_id": "financebench_id_00917_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_00563_ev_0_chunk_0",
+          "doc_name": "AMD_2022_10K",
+          "doc_id": "financebench_id_00563_ev_0"
+        }
+      ],
+      "latency_ms": 266.4,
+      "recall": 1.0,
+      "mrr": 1.0,
+      "precision": 0.6666666666666666,
+      "failure_label": "",
+      "ctx_recall": 1.0,
+      "ctx_recall_reason": "The score is 1.00 because sentence 1 is fully supported by node(s) in retrieval context 1 and 2, which directly state the same Xilinx acquisition amortization explanation. Excellent match!",
+      "ctx_precision": 1.0,
+      "ctx_precision_reason": "The score is 1.00 because the relevant nodes are ranked first and second, with the first node directly stating 'The decrease in operating income was primarily driven by amortization of intangible assets associated with the Xilinx acquisition' and the second node repeating that key point, while the irrelevant node is correctly placed lower at rank 3. Nice job—this is a well-ordered retrieval!"
+    },
+    {
+      "case_id": "financebench_id_01279",
+      "question_type": "domain-relevant",
+      "question": "Among operations, investing, and financing activities, which brought in the most (or lost the least) cash flow for AMD in FY22?",
+      "gold_doc_name": "AMD_2022_10K",
+      "retrieved": [
+        {
+          "chunk_id": "financebench_id_01279_ev_0_chunk_0",
+          "doc_name": "AMD_2022_10K",
+          "doc_id": "financebench_id_01279_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_01279_ev_0_chunk_1",
+          "doc_name": "AMD_2022_10K",
+          "doc_id": "financebench_id_01279_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_00917_ev_0_chunk_4",
+          "doc_name": "AMD_2022_10K",
+          "doc_id": "financebench_id_00917_ev_0"
+        }
+      ],
+      "latency_ms": 243.5,
+      "recall": 1.0,
+      "mrr": 1.0,
+      "precision": 0.6666666666666666,
+      "failure_label": "",
+      "ctx_recall": 1.0,
+      "ctx_recall_reason": "The score is 1 because sentence 1 is fully supported by node 2 in retrieval context, which shows 2022 operating cash flow of 3,565 exceeding 2021 and 2020; excellent recall!",
+      "ctx_precision": 0.5,
+      "ctx_precision_reason": "The score is 0.50 because the first node is irrelevant: it includes 'Cash flows from operating activities' but is truncated before the net cash figure and does not provide investing or financing totals, so it should be ranked lower than the relevant second node. The third node is also irrelevant because it discusses 'gross margin, operating income, net income, and cash balances' rather than the operating, investing, and financing cash flow totals needed. The second node is relevant and provides 'Net cash provided by operating activities 3,565', 'Net cash provided by (used in) investing activities 1,999', and begins the financing section, but because irrelevant nodes appear at ranks 1 and 3 around it, the score is only 0.50."
+    },
+    {
+      "case_id": "financebench_id_00563",
+      "question_type": "novel-generated",
+      "question": "From FY21 to FY22, excluding Embedded, in which AMD reporting segment did sales proportionally increase the most?",
+      "gold_doc_name": "AMD_2022_10K",
+      "retrieved": [
+        {
+          "chunk_id": "financebench_id_00563_ev_0_chunk_0",
+          "doc_name": "AMD_2022_10K",
+          "doc_id": "financebench_id_00563_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_01198_ev_0_chunk_3",
+          "doc_name": "AMD_2022_10K",
+          "doc_id": "financebench_id_01198_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_00917_ev_0_chunk_3",
+          "doc_name": "AMD_2022_10K",
+          "doc_id": "financebench_id_00917_ev_0"
+        }
+      ],
+      "latency_ms": 246.4,
+      "recall": 1.0,
+      "mrr": 1.0,
+      "precision": 0.3333333333333333,
+      "failure_label": "",
+      "ctx_recall": 0.25,
+      "ctx_recall_reason": "The score is 0.25 because the expected output's segment labels (sentence 1 for AMD/Data Center, and the Client/Gaming labels) are supported by node(s) in retrieval context 1 and 2, but sentences 2-9's exact FY22/FY21 revenue figures and percentage calculations are not present in any node; node 2 only provides rounded changes such as 64%, 10%, and 21%.",
+      "ctx_precision": 1.0,
+      "ctx_precision_reason": "The score is 1.00 because all nodes in the retrieval contexts are relevant and ranked perfectly, with the key segment revenue details appearing right where they should to answer the question."
+    },
+    {
+      "case_id": "financebench_id_00757",
+      "question_type": "novel-generated",
+      "question": "Did AMD report customer concentration in FY22?",
+      "gold_doc_name": "AMD_2022_10K",
+      "retrieved": [
+        {
+          "chunk_id": "financebench_id_00757_ev_0_chunk_0",
+          "doc_name": "AMD_2022_10K",
+          "doc_id": "financebench_id_00757_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_00563_ev_0_chunk_0",
+          "doc_name": "AMD_2022_10K",
+          "doc_id": "financebench_id_00563_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_01198_ev_0_chunk_3",
+          "doc_name": "AMD_2022_10K",
+          "doc_id": "financebench_id_01198_ev_0"
+        }
+      ],
+      "latency_ms": 214.4,
+      "recall": 1.0,
+      "mrr": 1.0,
+      "precision": 0.3333333333333333,
+      "failure_label": "",
+      "ctx_recall": 1.0,
+      "ctx_recall_reason": "The score is 1.00 because the expected output is fully supported by node 1 in retrieval context, which directly states that one customer accounted for 16% of consolidated net revenue.",
+      "ctx_precision": 1.0,
+      "ctx_precision_reason": "The score is 1.00 because the first node in retrieval contexts directly confirms AMD reported customer concentration in FY22, making the ranking perfectly precise."
+    },
+    {
+      "case_id": "financebench_id_00476",
+      "question_type": "domain-relevant",
+      "question": "Which debt securities are registered to trade on a national securities exchange under American Express' name as of 2022?",
+      "gold_doc_name": "AMERICANEXPRESS_2022_10K",
+      "retrieved": [
+        {
+          "chunk_id": "financebench_id_00476_ev_0_chunk_0",
+          "doc_name": "AMERICANEXPRESS_2022_10K",
+          "doc_id": "financebench_id_00476_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_00476_ev_0_chunk_4",
+          "doc_name": "AMERICANEXPRESS_2022_10K",
+          "doc_id": "financebench_id_00476_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_00476_ev_0_chunk_3",
+          "doc_name": "AMERICANEXPRESS_2022_10K",
+          "doc_id": "financebench_id_00476_ev_0"
+        }
+      ],
+      "latency_ms": 246.4,
+      "recall": 1.0,
+      "mrr": 1.0,
+      "precision": 1.0,
+      "failure_label": "",
+      "ctx_recall": 1.0,
+      "ctx_recall_reason": "The score is 1.00 because sentence 1 is well supported by node 1 in retrieval context, which lists only common shares under Section 12(b), matching the expected inference that there are no debt securities.",
+      "ctx_precision": 1.0,
+      "ctx_precision_reason": "The score is 1.00 because the first node is highly relevant—it lists the 'Securities registered pursuant to Section 12(b) of the Act' and shows only 'Common Shares' on the 'New York Stock Exchange'—while the second and third nodes are correctly ranked lower as they discuss share value/documents and a checkbox instruction rather than registered debt securities."
+    },
+    {
+      "case_id": "financebench_id_01028",
+      "question_type": "domain-relevant",
+      "question": "What are the geographies that American Express primarily operates in as of 2022?",
+      "gold_doc_name": "AMERICANEXPRESS_2022_10K",
+      "retrieved": [
+        {
+          "chunk_id": "financebench_id_01028_ev_0_chunk_0",
+          "doc_name": "AMERICANEXPRESS_2022_10K",
+          "doc_id": "financebench_id_01028_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_01981_ev_0_chunk_3",
+          "doc_name": "AMERICANEXPRESS_2022_10K",
+          "doc_id": "financebench_id_01981_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_01981_ev_0_chunk_0",
+          "doc_name": "AMERICANEXPRESS_2022_10K",
+          "doc_id": "financebench_id_01981_ev_0"
+        }
+      ],
+      "latency_ms": 221.7,
+      "recall": 1.0,
+      "mrr": 1.0,
+      "precision": 0.3333333333333333,
+      "failure_label": "",
+      "ctx_recall": 1.0,
+      "ctx_recall_reason": "The score is 1.00 because sentence 1 in the expected output is fully supported by node 1 in retrieval context, which lists United States, EMEA, APAC, and LACC.",
+      "ctx_precision": 1.0,
+      "ctx_precision_reason": "The score is 1.00 because the relevant node is ranked first in the retrieval contexts, with all irrelevant nodes appearing after it—perfect ranking!"
+    },
+    {
+      "case_id": "financebench_id_00723",
+      "question_type": "domain-relevant",
+      "question": "Does AMEX have an improving operating margin profile as of 2022? If operating margin is not a useful metric for a company like this, then state that and explain why.",
+      "gold_doc_name": "AMERICANEXPRESS_2022_10K",
+      "retrieved": [
+        {
+          "chunk_id": "financebench_id_01981_ev_0_chunk_4",
+          "doc_name": "AMERICANEXPRESS_2022_10K",
+          "doc_id": "financebench_id_01981_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_01981_ev_0_chunk_1",
+          "doc_name": "AMERICANEXPRESS_2022_10K",
+          "doc_id": "financebench_id_01981_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_01981_ev_0_chunk_3",
+          "doc_name": "AMERICANEXPRESS_2022_10K",
+          "doc_id": "financebench_id_01981_ev_0"
+        }
+      ],
+      "latency_ms": 236.2,
+      "recall": 0.0,
+      "mrr": 0.0,
+      "precision": 0.0,
+      "failure_label": "",
+      "ctx_recall": 0.0,
+      "ctx_recall_reason": "The score is 0.00 because sentence 1 states that performance is not measured through operating margin and is measured through Net Interest Margin, but nodes 1, 2, and 3 in retrieval context discuss net interest income growth and revenue drivers without mentioning operating margin or Net Interest Margin as a performance measure.",
+      "ctx_precision": 0,
+      "ctx_precision_reason": "The score is 0.00 because all three nodes in retrieval contexts are irrelevant: the first node mentions 'Net interest income increased 28 percent versus the prior year' but does not discuss operating margin; the second focuses on 'Worldwide network volumes for the year increased 21 percent' without referencing operating margin or net interest margin; and the third includes 'Total revenues net of interest expense increased 25 percent year-over-year' but never mentions operating margin. Since no relevant nodes appear, the irrelevant nodes cannot be ranked below any relevant nodes, so the contextual precision is at its minimum."
+    },
+    {
+      "case_id": "financebench_id_00720",
+      "question_type": "domain-relevant",
+      "question": "What drove gross margin change as of the FY2022 for American Express? If gross margin is not a useful metric for a company like this, then please state that and explain why.",
+      "gold_doc_name": "AMERICANEXPRESS_2022_10K",
+      "retrieved": [
+        {
+          "chunk_id": "financebench_id_01981_ev_0_chunk_4",
+          "doc_name": "AMERICANEXPRESS_2022_10K",
+          "doc_id": "financebench_id_01981_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_01981_ev_0_chunk_5",
+          "doc_name": "AMERICANEXPRESS_2022_10K",
+          "doc_id": "financebench_id_01981_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_01351_ev_0_chunk_1",
+          "doc_name": "AMERICANEXPRESS_2022_10K",
+          "doc_id": "financebench_id_01351_ev_0"
+        }
+      ],
+      "latency_ms": 240.9,
+      "recall": 0.0,
+      "mrr": 0.0,
+      "precision": 0.0,
+      "failure_label": "",
+      "ctx_recall": 0.0,
+      "ctx_recall_reason": "The score is 0.00 because sentence 1 cannot be attributed to any node in retrieval context: node 3 mentions 'Net interest yield on average Card Member loans' but does not state that performance is not measured through gross margin or make that comparison.",
+      "ctx_precision": 0.8333333333333333,
+      "ctx_precision_reason": "The score is 0.83 because the first node in retrieval contexts is relevant, discussing 'Net interest income increased 28 percent versus the prior year, primarily driven by growth in Card Member loans,' and the third node is also relevant, including 'Net interest income divided by average Card Member loans' and 'Net interest yield on average Card Member loans.' However, the second node in retrieval contexts is irrelevant because it discusses foreign currency adjusted information and non-GAAP measures but contains no mention of gross margin or net interest margin, and it is ranked higher than the relevant third node. This prevents a perfect score, but the score remains high because a relevant node is ranked first and only one irrelevant node appears before the final relevant node."
+    },
+    {
+      "case_id": "financebench_id_01351",
+      "question_type": "domain-relevant",
+      "question": "How much has the effective tax rate of American Express changed between FY2021 and FY2022?",
+      "gold_doc_name": "AMERICANEXPRESS_2022_10K",
+      "retrieved": [
+        {
+          "chunk_id": "financebench_id_01351_ev_0_chunk_1",
+          "doc_name": "AMERICANEXPRESS_2022_10K",
+          "doc_id": "financebench_id_01351_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_01351_ev_0_chunk_0",
+          "doc_name": "AMERICANEXPRESS_2022_10K",
+          "doc_id": "financebench_id_01351_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_01981_ev_0_chunk_3",
+          "doc_name": "AMERICANEXPRESS_2022_10K",
+          "doc_id": "financebench_id_01981_ev_0"
+        }
+      ],
+      "latency_ms": 216.1,
+      "recall": 1.0,
+      "mrr": 1.0,
+      "precision": 0.6666666666666666,
+      "failure_label": "",
+      "ctx_recall": 1.0,
+      "ctx_recall_reason": "The score is 1.00 because the expected output is fully supported by node 1 in retrieval context, which provides the FY 2022 and FY 2021 effective tax rates needed for the comparison.",
+      "ctx_precision": 1.0,
+      "ctx_precision_reason": "The score is 1.00 because the retrieval contexts are perfectly ordered: the relevant nodes with the effective tax rate figures and tax inputs appear first, and the irrelevant node about business environment and spending is ranked last. Great ranking!"
+    },
+    {
+      "case_id": "financebench_id_01964",
+      "question_type": "novel-generated",
+      "question": "What was the largest liability in American Express's Balance Sheet in 2022?",
+      "gold_doc_name": "AMERICANEXPRESS_2022_10K",
+      "retrieved": [
+        {
+          "chunk_id": "financebench_id_01964_ev_0_chunk_1",
+          "doc_name": "AMERICANEXPRESS_2022_10K",
+          "doc_id": "financebench_id_01964_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_01964_ev_0_chunk_0",
+          "doc_name": "AMERICANEXPRESS_2022_10K",
+          "doc_id": "financebench_id_01964_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_01981_ev_0_chunk_3",
+          "doc_name": "AMERICANEXPRESS_2022_10K",
+          "doc_id": "financebench_id_01981_ev_0"
+        }
+      ],
+      "latency_ms": 206.9,
+      "recall": 1.0,
+      "mrr": 1.0,
+      "precision": 0.6666666666666666,
+      "failure_label": "",
+      "ctx_recall": 1.0,
+      "ctx_recall_reason": "The score is 1.00 because the expected output’s single sentence is fully supported by the 1st node in retrieval context, which identifies American Express AMERICANEXPRESS_2022_10K and lists Customer deposits.",
+      "ctx_precision": 1.0,
+      "ctx_precision_reason": "The score is 1.00 because the first node directly supports the answer with 'Customer deposits $110,239' and is ranked above the later irrelevant nodes, so the ordering is spot on!"
+    },
+    {
+      "case_id": "financebench_id_01981",
+      "question_type": "novel-generated",
+      "question": "Was American Express able to retain card members during 2022?",
+      "gold_doc_name": "AMERICANEXPRESS_2022_10K",
+      "retrieved": [
+        {
+          "chunk_id": "financebench_id_01981_ev_0_chunk_3",
+          "doc_name": "AMERICANEXPRESS_2022_10K",
+          "doc_id": "financebench_id_01981_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_01981_ev_0_chunk_0",
+          "doc_name": "AMERICANEXPRESS_2022_10K",
+          "doc_id": "financebench_id_01981_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_01964_ev_0_chunk_0",
+          "doc_name": "AMERICANEXPRESS_2022_10K",
+          "doc_id": "financebench_id_01964_ev_0"
+        }
+      ],
+      "latency_ms": 216.9,
+      "recall": 1.0,
+      "mrr": 1.0,
+      "precision": 0.6666666666666666,
+      "failure_label": "",
+      "ctx_recall": 1.0,
+      "ctx_recall_reason": "The score is 1 because the answer in sentence 1 is fully supported by node 1 (and nodes 2-3) in retrieval context, which explicitly identifies American Express and AMERICANEXPRESS_2022_10K.",
+      "ctx_precision": 1.0,
+      "ctx_precision_reason": "The score is 1.00 because the relevant node is ranked first and the two irrelevant nodes are ranked lower, giving perfect contextual precision."
+    },
+    {
+      "case_id": "financebench_id_05718",
+      "question_type": "metrics-generated",
+      "question": "How much (in USD billions) did American Water Works pay out in cash dividends for FY2020? Compute or extract the answer by primarily using the details outlined in the statement of cash flows.",
+      "gold_doc_name": "AMERICANWATERWORKS_2020_10K",
+      "retrieved": [
+        {
+          "chunk_id": "financebench_id_05718_ev_0_chunk_3",
+          "doc_name": "AMERICANWATERWORKS_2020_10K",
+          "doc_id": "financebench_id_05718_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_05718_ev_0_chunk_2",
+          "doc_name": "AMERICANWATERWORKS_2020_10K",
+          "doc_id": "financebench_id_05718_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_05718_ev_0_chunk_0",
+          "doc_name": "AMERICANWATERWORKS_2020_10K",
+          "doc_id": "financebench_id_05718_ev_0"
+        }
+      ],
+      "latency_ms": 255.4,
+      "recall": 1.0,
+      "mrr": 1.0,
+      "precision": 1.0,
+      "failure_label": "",
+      "ctx_recall": 0.5,
+      "ctx_recall_reason": "The score is 0.50 because the expected output's sentence 1 is partly supported by node 2 in retrieval context, which includes the line item 'Dividends paid,' but the stated value '$0.40' is not supported since node 2 lists 'Dividends paid (389)' in millions.",
+      "ctx_precision": 0.5,
+      "ctx_precision_reason": "The score is 0.50 because the relevant node is ranked second, while an irrelevant node is ranked first. The first node in the retrieval contexts is irrelevant because it includes cash flow details such as 'Cash paid during the year for: Interest' and 'Income taxes' but lacks the 'Dividends paid' line item, so it should be ranked lower than the relevant second node, which directly includes 'Dividends paid (389) (353) (319)' and supports the FY2020 answer. The third node is also irrelevant because it only covers 'CASH FLOWS FROM OPERATING ACTIVITIES' and does not contain the 'Dividends paid' line item, so the relevant second node should rank above it as well. It is not higher because the relevant node is not ranked first, but it is at 0.50 because a relevant node still appears above an irrelevant node."
+    },
+    {
+      "case_id": "financebench_id_04254",
+      "question_type": "metrics-generated",
+      "question": "Basing your judgments off of the cash flow statement and the income statement, what is American Water Works's FY2021 unadjusted operating income + depreciation and amortization from the cash flow statement (unadjusted EBITDA) in USD millions?",
+      "gold_doc_name": "AMERICANWATERWORKS_2021_10K",
+      "retrieved": [
+        {
+          "chunk_id": "financebench_id_04254_ev_1_chunk_0",
+          "doc_name": "AMERICANWATERWORKS_2021_10K",
+          "doc_id": "financebench_id_04254_ev_1"
+        },
+        {
+          "chunk_id": "financebench_id_04254_ev_1_chunk_2",
+          "doc_name": "AMERICANWATERWORKS_2021_10K",
+          "doc_id": "financebench_id_04254_ev_1"
+        },
+        {
+          "chunk_id": "financebench_id_04254_ev_1_chunk_3",
+          "doc_name": "AMERICANWATERWORKS_2021_10K",
+          "doc_id": "financebench_id_04254_ev_1"
+        }
+      ],
+      "latency_ms": 240.3,
+      "recall": 0.5,
+      "mrr": 1.0,
+      "precision": 1.0,
+      "failure_label": "",
+      "ctx_recall": 0.3333333333333333,
+      "ctx_recall_reason": "The score is 0.33 because only the depreciation and amortization portion of sentence 1 is supported by node 1 in retrieval context, while the $1832.00 calculation, the 'various simpler metrics'/prior-year reference, and unadjusted operating income/operating income in sentence 1 are not supported by any node in retrieval context; node 1 instead shows net income.",
+      "ctx_precision": 1.0,
+      "ctx_precision_reason": "The score is 1.00 because the relevant first node is ranked above the irrelevant nodes, so the retrieval ordering perfectly places the useful cash flow depreciation and amortization information ahead of the less relevant financing and tail-end cash flow details."
+    },
+    {
+      "case_id": "financebench_id_00070",
+      "question_type": "domain-relevant",
+      "question": "Does American Water Works have positive working capital based on FY2022 data? If working capital is not a useful or relevant metric for this company, then please state that and explain why.",
+      "gold_doc_name": "AMERICANWATERWORKS_2022_10K",
+      "retrieved": [
+        {
+          "chunk_id": "financebench_id_00070_ev_1_chunk_1",
+          "doc_name": "AMERICANWATERWORKS_2022_10K",
+          "doc_id": "financebench_id_00070_ev_1"
+        },
+        {
+          "chunk_id": "financebench_id_00070_ev_1_chunk_0",
+          "doc_name": "AMERICANWATERWORKS_2022_10K",
+          "doc_id": "financebench_id_00070_ev_1"
+        },
+        {
+          "chunk_id": "financebench_id_00070_ev_0_chunk_0",
+          "doc_name": "AMERICANWATERWORKS_2022_10K",
+          "doc_id": "financebench_id_00070_ev_0"
+        }
+      ],
+      "latency_ms": 217.2,
+      "recall": 1.0,
+      "mrr": 1.0,
+      "precision": 1.0,
+      "failure_label": "",
+      "ctx_recall": 1.0,
+      "ctx_recall_reason": "The score is 1.00 because sentence 1 is fully supported by node(s) in retrieval context 1 and 3, which provide current assets of 1,250 and current liabilities of 2,811, yielding the stated negative working capital of -1,561.",
+      "ctx_precision": 1.0,
+      "ctx_precision_reason": "The score is 1.00 because all nodes in the retrieval contexts are relevant to calculating working capital, with current liability details first and current asset figures later, so the ranking is precise and well-ordered."
+    },
+    {
+      "case_id": "financebench_id_02608",
+      "question_type": "metrics-generated",
+      "question": "In agreement with the information outlined in the income statement, what is the FY2015 - FY2017 3 year average net profit margin (as a %) for Best Buy? Answer in units of percents and round to one decimal place.",
+      "gold_doc_name": "BESTBUY_2017_10K",
+      "retrieved": [
+        {
+          "chunk_id": "financebench_id_02608_ev_0_chunk_0",
+          "doc_name": "BESTBUY_2017_10K",
+          "doc_id": "financebench_id_02608_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_02608_ev_0_chunk_1",
+          "doc_name": "BESTBUY_2017_10K",
+          "doc_id": "financebench_id_02608_ev_0"
+        }
+      ],
+      "latency_ms": 266.8,
+      "recall": 1.0,
+      "mrr": 1.0,
+      "precision": 1.0,
+      "failure_label": "",
+      "ctx_recall": 0.6666666666666666,
+      "ctx_recall_reason": "The score is 0.67 because expected output sentence 2 is supported by node 1 and node 2 in retrieval context listing 'Revenue,' and sentence 3 is supported by node 2 listing 'Net earnings attributable to Best Buy Co., Inc. shareholders'; however, sentence 1’s '2.8%' and calculation description are not supported by node 1 or node 2 in retrieval context.",
+      "ctx_precision": 1.0,
+      "ctx_precision_reason": "The score is 1.00 because both nodes in the retrieval contexts are relevant and are ranked at the top, with the first node providing revenue figures and the second providing net earnings for the calculation. Great retrieval!"
+    },
+    {
+      "case_id": "financebench_id_04417",
+      "question_type": "metrics-generated",
+      "question": "What is the year end FY2019 total amount of inventories for Best Buy? Answer in USD millions. Base your judgments on the information provided primarily in the balance sheet.",
+      "gold_doc_name": "BESTBUY_2019_10K",
+      "retrieved": [
+        {
+          "chunk_id": "financebench_id_04417_ev_0_chunk_0",
+          "doc_name": "BESTBUY_2019_10K",
+          "doc_id": "financebench_id_04417_ev_0"
+        },
+        {
+          "chunk_id": "financebench_id_04417_ev_0_chunk_1",
+          "doc_name": "BESTBUY_2019_10K",
+          "doc_id": "financebench_id_04417_ev_0"
+        }
+      ],
+      "latency_ms": 168.3,
+      "recall": 1.0,
+      "mrr": 1.0,
+      "precision": 1.0,
+      "failure_label": "",
+      "ctx_recall": 1.0,
+      "ctx_recall_reason": "The score is 1.00 because the first node in retrieval context explicitly contains 'Merchandise inventories ... 5,409,' perfectly supporting the expected Best Buy inventories figure. Great job!",
+      "ctx_precision": 1.0,
+      "ctx_precision_reason": "The score is 1.00 because the first node in the retrieval contexts directly provides the FY2019 merchandise inventories value, while the irrelevant second node is ranked lower—perfect contextual precision!"
+    }
+  ]
+}

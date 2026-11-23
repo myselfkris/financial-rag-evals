@@ -8,3 +8,10 @@ __pycache__/
 
 # Rebuildable vector index (rebuild with: python -m src.<retriever_module>)
 data/chroma_db/
+
+# Generated dashboard (rebuild with: python evals/dashboard.py)
+results/dashboard.html
+
+# Tool caches
+.deepeval/
+.pytest_cache/

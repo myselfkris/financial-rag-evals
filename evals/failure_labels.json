@@ -60,6 +60,7 @@
     }
   },
   "run_H4_filter": {
+    "run_id": "20261122_174931_retriever_7_filter_dev",
     "run": "retriever_7_filter on dev (H2 index + company/year filter read from the question)",
     "step1_extraction": "Company read correctly 20/20; right report kept 20/20. Caveat: FinanceBench questions always name the company and year, so this set cannot test questions that don't.",
     "changes_vs_H2": "Recall 67.5% -> 76.7%, MRR 77.5% -> 88.3%, precision 61.7% -> 76.7%, complete misses 3 -> 1. Latency p50 109 ms.",
@@ -68,6 +69,7 @@
     }
   },
   "run_H4_filter_TEST": {
+    "run_id": "20261122_215625_retriever_7_filter_test",
     "run": "20261122_215625_retriever_7_filter_test: H4 on frozen_test_30. THE HONEST RELEASE SCORE for the retriever.",
     "summary": "Recall 73.3%, MRR 76.7%, precision 62.2%, complete misses 7/30 (dev was 76.7% / 88.3% / 1/20).",
     "root_causes": {

@@ -1,0 +1,464 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RAG Eval Dashboard</title>
+<style>
+:root {
+  color-scheme: light;
+  --bg: #f9f9f7; --surface: #fcfcfb; --ink: #0b0b0b; --ink2: #52514e; --muted: #898781;
+  --grid: #e1e0d9; --axis: #c3c2b7; --border: rgba(11,11,11,0.10); --wash: rgba(11,11,11,0.04);
+  --s1: #2a78d6; --s2: #eb6834; --s3: #1baf7a;
+  --good: #0ca30c; --good-text: #006300; --crit: #d03b3b; --serious: #ec835a; --warn: #fab219;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #0d0d0d; --surface: #1a1a19; --ink: #f0efec; --ink2: #c3c2b7; --muted: #898781;
+    --grid: #2c2c2a; --axis: #383835; --border: rgba(255,255,255,0.10); --wash: rgba(255,255,255,0.05);
+    --s1: #3987e5; --s2: #d95926; --s3: #199e70; --good-text: #0ca30c;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #0d0d0d; --surface: #1a1a19; --ink: #f0efec; --ink2: #c3c2b7; --muted: #898781;
+  --grid: #2c2c2a; --axis: #383835; --border: rgba(255,255,255,0.10); --wash: rgba(255,255,255,0.05);
+  --s1: #3987e5; --s2: #d95926; --s3: #199e70; --good-text: #0ca30c;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink);
+  font: 14px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
+main { max-width: 1120px; margin: 0 auto; padding: 24px 16px 64px; }
+h1 { font-size: 22px; margin: 0 0 2px; }
+h2 { font-size: 16px; margin: 0; }
+.sub { color: var(--ink2); margin: 0 0 20px; }
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px; margin-bottom: 16px; }
+.card-head { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+.hint { color: var(--ink2); font-size: 13px; margin: 2px 0 12px; }
+.seg { display: inline-flex; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+.seg button { border: 0; background: transparent; color: var(--ink2); padding: 6px 12px; font: inherit; cursor: pointer; }
+.seg button + button { border-left: 1px solid var(--border); }
+.seg button[aria-pressed="true"] { background: var(--wash); color: var(--ink); font-weight: 600; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 16px; color: var(--ink2); font-size: 13px; margin: 4px 0 4px; }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.sw { width: 14px; height: 3px; border-radius: 2px; display: inline-block; }
+.ring { width: 10px; height: 10px; border-radius: 50%; border: 2px solid var(--ink2); display: inline-block; }
+.chart-wrap { position: relative; }
+svg { display: block; width: 100%; height: auto; }
+.tick { fill: var(--muted); font-size: 12px; }
+.xlab { fill: var(--ink2); font-size: 12px; }
+.endlab { font-size: 12px; fill: var(--ink2); }
+.tip { position: absolute; pointer-events: none; background: var(--surface); color: var(--ink); border: 1px solid var(--border);
+  border-radius: 8px; padding: 8px 10px; font-size: 13px; box-shadow: 0 4px 16px rgba(0,0,0,0.12); max-width: 280px; display: none; z-index: 5; }
+.tip b { font-weight: 600; }
+.tip .m { color: var(--ink2); }
+details > summary { cursor: pointer; color: var(--ink2); }
+table { border-collapse: collapse; width: 100%; font-size: 13px; }
+th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--border); vertical-align: top; }
+th { color: var(--ink2); font-weight: 600; }
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+.table-scroll { overflow-x: auto; }
+.pickers { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: end; }
+.pickers label { display: flex; flex-direction: column; gap: 2px; color: var(--ink2); font-size: 12px; min-width: 0; flex: 1 1 260px; }
+select { font: inherit; color: var(--ink); background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 6px 8px; width: 100%; }
+.arrow { color: var(--muted); padding-bottom: 8px; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
+.chip { border: 1px solid var(--border); border-radius: 999px; padding: 3px 10px; font-size: 13px; color: var(--ink2); background: transparent; }
+.chip b { color: var(--ink); }
+.ic-fixed, .ic-better { color: var(--good); } .ic-broke, .ic-worse { color: var(--crit); }
+.ic-missing { color: var(--serious); } .ic-same { color: var(--muted); }
+.group { margin-top: 12px; }
+.group h3 { font-size: 13px; margin: 0 0 4px; color: var(--ink2); font-weight: 600; }
+.row { display: grid; grid-template-columns: 70px 1fr auto; gap: 4px 12px; width: 100%; text-align: left; font: inherit; color: inherit;
+  background: transparent; border: 0; border-top: 1px solid var(--border); padding: 8px 4px; cursor: pointer; }
+.row:hover, .row:focus-visible { background: var(--wash); }
+.row[aria-current="true"] { background: var(--wash); box-shadow: inset 3px 0 0 var(--s1); }
+.row .id { font-variant-numeric: tabular-nums; color: var(--ink2); }
+.row .q { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+.row .sc { color: var(--ink2); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.row .flags { grid-column: 2 / 4; color: var(--muted); font-size: 12px; }
+.empty { color: var(--muted); font-size: 13px; padding: 6px 4px; }
+.cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; margin-top: 12px; }
+.col { border: 1px solid var(--border); border-radius: 8px; padding: 12px; min-width: 0; }
+.col h3 { font-size: 13px; margin: 0 0 6px; }
+.kv { color: var(--ink2); font-size: 13px; margin: 2px 0; }
+.kv b { color: var(--ink); font-weight: 600; }
+.box { background: var(--wash); border-radius: 6px; padding: 8px 10px; margin: 8px 0; font-size: 13px; }
+.ok { color: var(--good-text); font-weight: 600; } .bad { color: var(--crit); font-weight: 600; } .warn { color: var(--ink); font-weight: 600; }
+ol.ret { margin: 6px 0 0; padding-left: 20px; }
+ol.ret li { margin-bottom: 8px; }
+.snip { color: var(--ink2); font-size: 12px; white-space: pre-wrap; word-break: break-word; margin-top: 4px; max-height: 220px; overflow: auto; }
+.q-full { font-size: 15px; margin: 6px 0; }
+.pill { display: inline-block; border: 1px solid var(--border); border-radius: 999px; padding: 0 8px; font-size: 12px; color: var(--ink2); }
+.flag-c { color: var(--crit); font-weight: 600; }
+.note { color: var(--ink2); font-size: 13px; font-style: italic; }
+select { min-width: 0; }
+@media (max-width: 640px) {
+  .row { grid-template-columns: 64px minmax(0, 1fr); }
+  .row .sc { grid-column: 2; white-space: normal; }
+  .row .flags { grid-column: 2; }
+  .pickers .arrow { display: none; }
+}
+</style>
+</head>
+<body>
+<main>
+  <h1>RAG Eval Dashboard</h1>
+  <p class="sub" id="sub"></p>
+
+  <section class="card" aria-labelledby="h-progress">
+    <div class="card-head">
+      <h2 id="h-progress">1 · Progress across experiments</h2>
+      <div class="seg" role="group" aria-label="Metric" id="metric"></div>
+    </div>
+    <p class="hint">One line per split. Only compare points on the same line: the splits are different questions. Click a point to open that run in Compare.</p>
+    <div class="legend" id="legend"></div>
+    <div class="chart-wrap" id="chart-wrap">
+      <svg id="chart" viewBox="0 0 760 300" role="img" aria-label="Metric by experiment and split"></svg>
+      <div class="tip" id="tip"></div>
+    </div>
+    <details style="margin-top:8px"><summary>Show as table</summary><div class="table-scroll" id="runs-table"></div></details>
+  </section>
+
+  <section class="card" aria-labelledby="h-compare">
+    <div class="card-head"><h2 id="h-compare">2 · Compare two runs</h2></div>
+    <p class="hint">Same split only, so every case appears in both runs. Click a case to read it below.</p>
+    <div class="pickers">
+      <label>Before<select id="run-a"></select></label>
+      <span class="arrow" aria-hidden="true">→</span>
+      <label>After<select id="run-b"></select></label>
+    </div>
+    <div id="contam"></div>
+    <div class="chips" id="chips"></div>
+    <div id="groups"></div>
+  </section>
+
+  <section class="card" aria-labelledby="h-case" id="case-card">
+    <div class="card-head"><h2 id="h-case">3 · Case</h2></div>
+    <div id="case"><p class="empty">Click a case in Compare to read it here.</p></div>
+  </section>
+</main>
+
+<script>
+const D = /*__DATA__*/null;
+
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const pct = v => (Math.round(v * 1000) / 10).toFixed(1).replace(/\.0$/, '') + '%';
+const short = id => id.replace('financebench_id_', '');
+const timeOf = id => id.slice(9, 11) + ':' + id.slice(11, 13);
+const byId = Object.fromEntries(D.runs.map(r => [r.id, r]));
+
+const SPLITS = [
+  { key: 'dev',  label: 'dev (first 20 rows)',        color: 'var(--s1)' },
+  { key: 'dev2', label: 'dev2 (random, 20 companies)', color: 'var(--s2)' },
+  { key: 'test', label: 'test (frozen)',               color: 'var(--s3)' },
+];
+const METRICS = {
+  recall:    { label: 'Recall',    get: r => r.summary.recall * 100 },
+  mrr:       { label: 'MRR',       get: r => r.summary.mrr * 100 },
+  precision: { label: 'Precision', get: r => r.summary.precision * 100 },
+  miss:      { label: 'Miss rate', get: r => r.summary.complete_misses / r.n * 100 },
+};
+const GROUPS = [
+  { key: 'fixed',   icon: '▲', label: 'Fixed',         desc: 'code recall 0 before, above 0 now' },
+  { key: 'broke',   icon: '▼', label: 'Broke',         desc: 'code recall above 0 before, 0 now' },
+  { key: 'better',  icon: '↗', label: 'Better',        desc: 'higher code recall or MRR' },
+  { key: 'worse',   icon: '↘', label: 'Worse',         desc: 'lower code recall or MRR' },
+  { key: 'missing', icon: '●', label: 'Still missing', desc: 'code recall 0 in both runs' },
+  { key: 'same',    icon: '=', label: 'Same code score', desc: 'code recall and MRR identical in both runs' },
+];
+const state = { metric: 'recall', a: null, b: null, caseId: null };
+const runName = r => `${r.exp} · ${r.split} · ${timeOf(r.id)}${r.contaminated ? ' · CONTAMINATED' : ''}`;
+
+/* ---------- 1. Progress ---------- */
+function seriesFor(metric) {
+  const m = METRICS[metric];
+  return SPLITS.map(s => {
+    const latest = {};
+    D.runs.filter(r => r.split === s.key).forEach(r => { latest[r.exp] = r; }); // runs are sorted by time
+    const points = Object.values(latest)
+      .map(r => ({ x: D.experiments.indexOf(r.exp), y: m.get(r), run: r }))
+      .filter(p => p.x >= 0).sort((a, b) => a.x - b.x);
+    return { ...s, points };
+  }).filter(s => s.points.length);
+}
+
+function renderChart() {
+  const svg = $('#chart'), H = 300, ml = 44, mt = 14, mb = 34;
+  const W = Math.max(320, Math.min(760, $('#chart-wrap').clientWidth || 760)); // draw at real width so text stays 12px
+  const mr = W < 520 ? 86 : 118;
+  svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+  const series = seriesFor(state.metric);
+  const all = series.flatMap(s => s.points.map(p => p.y));
+  let lo, hi;
+  if (state.metric === 'miss') { lo = 0; hi = Math.max(10, Math.ceil(Math.max(...all) / 10) * 10); }
+  else { lo = Math.max(0, Math.floor(Math.min(...all) / 10) * 10 - 10); hi = 100; }
+  const step = (hi - lo) > 50 ? 20 : 10;
+  const n = D.experiments.length, bw = (W - ml - mr) / n;
+  const X = i => ml + (i + 0.5) * bw;
+  const Y = v => mt + (H - mt - mb) * (1 - (v - lo) / (hi - lo));
+  let g = '';
+  for (let v = lo; v <= hi + 1e-9; v += step) {
+    g += `<line x1="${ml}" x2="${W - mr}" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--grid)" stroke-width="1"/>`;
+    g += `<text class="tick" x="${ml - 8}" y="${Y(v) + 4}" text-anchor="end">${v}%</text>`;
+  }
+  g += `<line x1="${ml}" x2="${W - mr}" y1="${Y(lo)}" y2="${Y(lo)}" stroke="var(--axis)" stroke-width="1"/>`;
+  D.experiments.forEach((e, i) => {
+    const name = bw < 52 && e === 'Baseline' ? 'Base' : e;
+    g += `<text class="xlab" x="${X(i)}" y="${H - 10}" text-anchor="middle">${esc(name)}</text>`;
+  });
+
+  const labels = [];
+  series.forEach(s => {
+    for (let i = 1; i < s.points.length; i++) {
+      const p = s.points[i - 1], q = s.points[i];
+      const dash = q.run.contaminated ? ' stroke-dasharray="4 4"' : '';
+      g += `<line x1="${X(p.x)}" y1="${Y(p.y)}" x2="${X(q.x)}" y2="${Y(q.y)}" stroke="${s.color}" stroke-width="2"${dash}/>`;
+    }
+    const last = s.points[s.points.length - 1];
+    labels.push({ s, last, y: Y(last.y) });
+  });
+  // end labels in the right margin, nudged apart
+  labels.sort((a, b) => a.y - b.y);
+  for (let i = 1; i < labels.length; i++) if (labels[i].y - labels[i - 1].y < 15) labels[i].y = labels[i - 1].y + 15;
+  labels.forEach(l => {
+    const lx = W - mr + 14;
+    g += `<line x1="${X(l.last.x) + 8}" y1="${Y(l.last.y)}" x2="${lx - 4}" y2="${l.y}" stroke="var(--grid)" stroke-width="1"/>`;
+    g += `<text class="endlab" x="${lx}" y="${l.y + 4}">${esc(l.s.key)} ${pct(l.last.y / 100)}</text>`;
+  });
+  series.forEach(s => s.points.forEach(p => {
+    const fill = p.run.contaminated ? 'var(--surface)' : s.color;
+    g += `<circle cx="${X(p.x)}" cy="${Y(p.y)}" r="5" fill="${fill}" stroke="${p.run.contaminated ? s.color : 'var(--surface)'}" stroke-width="2"/>`;
+    g += `<circle class="hit" data-run="${esc(p.run.id)}" data-split="${s.key}" cx="${X(p.x)}" cy="${Y(p.y)}" r="14" fill="transparent" style="cursor:pointer" tabindex="0" aria-label="${esc(runName(p.run))}: ${pct(p.y / 100)}"/>`;
+  }));
+  svg.innerHTML = g;
+
+  const tip = $('#tip'), wrap = $('#chart-wrap');
+  svg.querySelectorAll('.hit').forEach(el => {
+    const show = () => {
+      const r = byId[el.dataset.run], m = METRICS[state.metric];
+      const k = wrap.clientWidth / W;
+      tip.innerHTML = `<b>${esc(r.exp)}</b> on <b>${esc(r.split)}</b> (${r.n} cases)<br>`
+        + `${m.label}: <b>${pct(m.get(r) / 100)}</b>`
+        + (state.metric === 'miss' ? ` <span class="m">(${r.summary.complete_misses} of ${r.n})</span>` : '')
+        + (r.contaminated ? `<br><span class="flag-c">⚠ Contaminated: not a release score</span>` : '')
+        + `<br><span class="m">${esc(r.note)}</span>`;
+      tip.style.display = 'block';
+      const cx = +el.getAttribute('cx') * k, cy = +el.getAttribute('cy') * k;
+      const left = Math.min(Math.max(cx - tip.offsetWidth / 2, 0), wrap.clientWidth - tip.offsetWidth);
+      tip.style.left = left + 'px';
+      tip.style.top = (cy > tip.offsetHeight + 16 ? cy - tip.offsetHeight - 12 : cy + 16) + 'px';
+    };
+    const hide = () => { tip.style.display = 'none'; };
+    const pick = () => {
+      const r = byId[el.dataset.run];
+      const same = D.runs.filter(x => x.split === r.split);
+      const i = same.findIndex(x => x.id === r.id);
+      setCompare(i > 0 ? same[i - 1].id : r.id, r.id);
+      $('#h-compare').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    };
+    el.addEventListener('mouseenter', show); el.addEventListener('focus', show);
+    el.addEventListener('mouseleave', hide); el.addEventListener('blur', hide);
+    el.addEventListener('click', pick);
+    el.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pick(); } });
+  });
+}
+
+function renderMetricButtons() {
+  $('#metric').innerHTML = Object.entries(METRICS).map(([k, m]) =>
+    `<button type="button" data-k="${k}" aria-pressed="${k === state.metric}">${m.label}</button>`).join('');
+  $('#metric').querySelectorAll('button').forEach(b => b.onclick = () => { state.metric = b.dataset.k; renderMetricButtons(); renderChart(); });
+}
+
+function renderLegend() {
+  $('#legend').innerHTML = SPLITS.filter(s => D.runs.some(r => r.split === s.key))
+    .map(s => `<span><i class="sw" style="background:${s.color}"></i>${esc(s.label)}</span>`).join('')
+    + (D.runs.some(r => r.contaminated) ? `<span><i class="ring"></i>hollow, dashed = contaminated run</span>` : '');
+}
+
+function renderRunsTable() {
+  const rows = D.runs.map(r => `<tr><td>${esc(r.exp)}</td><td>${esc(r.split)}</td><td>${esc(r.id)}${r.contaminated ? ' <span class="flag-c">⚠</span>' : ''}</td>
+    <td class="num">${pct(r.summary.recall)}</td><td class="num">${pct(r.summary.mrr)}</td><td class="num">${pct(r.summary.precision)}</td>
+    <td class="num">${r.summary.complete_misses}/${r.n}</td><td>${esc(r.note)}</td></tr>`).join('');
+  $('#runs-table').innerHTML = `<table><thead><tr><th>Exp</th><th>Split</th><th>Run</th><th class="num">Recall</th><th class="num">MRR</th>
+    <th class="num">Precision</th><th class="num">Misses</th><th>Note</th></tr></thead><tbody>${rows}</tbody></table>`;
+}
+
+/* ---------- 2. Compare ---------- */
+function classify(ca, cb) {
+  const a = ca.recall, b = cb.recall;
+  if (a === 0 && b > 0) return 'fixed';
+  if (a > 0 && b === 0) return 'broke';
+  if (a === 0 && b === 0) return 'missing';
+  if (b > a || (b === a && cb.mrr > ca.mrr)) return 'better';
+  if (b < a || (b === a && cb.mrr < ca.mrr)) return 'worse';
+  return 'same';
+}
+const docsKey = c => c.retrieved.map(x => x.doc_id).join('|');
+const step1Key = c => c.step1 ? JSON.stringify(c.step1.reports) : null;
+
+function fillPickers() {
+  const opts = (runs, sel) => SPLITS.map(s => {
+    const rs = runs.filter(r => r.split === s.key);
+    return rs.length ? `<optgroup label="${esc(s.key)}">${rs.map(r => `<option value="${esc(r.id)}"${r.id === sel ? ' selected' : ''}>${esc(runName(r))}</option>`).join('')}</optgroup>` : '';
+  }).join('');
+  $('#run-a').innerHTML = opts(D.runs, state.a);
+  $('#run-b').innerHTML = opts(D.runs.filter(r => r.split === byId[state.a].split), state.b);
+}
+
+function setCompare(a, b) {
+  state.a = a;
+  const split = byId[a].split;
+  if (!b || byId[b].split !== split) {
+    const same = D.runs.filter(r => r.split === split);
+    const i = same.findIndex(r => r.id === a);
+    b = (same[i + 1] || same[i]).id;
+  }
+  state.b = b;
+  fillPickers();
+  renderCompare();
+}
+
+function renderCompare() {
+  const A = byId[state.a], B = byId[state.b];
+  $('#contam').innerHTML = [A, B].filter(r => r.contaminated).map(r =>
+    `<p class="box"><span class="flag-c">⚠ ${esc(r.exp)} on ${esc(r.split)} is contaminated.</span> ${esc(r.note)}</p>`).join('');
+  const ca = Object.fromEntries(A.cases.map(c => [c.id, c]));
+  const buckets = Object.fromEntries(GROUPS.map(g => [g.key, []]));
+  B.cases.forEach(cb => {
+    const c0 = ca[cb.id]; if (!c0) return;
+    buckets[classify(c0, cb)].push({ a: c0, b: cb });
+  });
+  const chipsHtml = `<div class="chips">${GROUPS.map(g =>
+    `<span class="chip"><span class="ic-${g.key}" aria-hidden="true">${g.icon}</span> ${g.label} <b>${buckets[g.key].length}</b></span>`).join('')}</div>`;
+  $('#chips').innerHTML = '';
+  // Code vs judge INSIDE the "After" run. Separate from the before/after groups below.
+  const judged = B.cases.filter(c => c.ctx_recall != null);
+  const judgeRow = c => `<button type="button" class="row" data-case="${esc(c.id)}"${c.id === state.caseId ? ' aria-current="true"' : ''}>
+      <span class="id">${esc(short(c.id))}</span>
+      <span class="q" title="${esc((D.cases[c.id] || {}).question)}">${esc((D.cases[c.id] || {}).question)}</span>
+      <span class="sc">code recall ${pct(c.recall)} · judge ctx_recall ${pct(c.ctx_recall)}</span></button>`;
+  let judgeHtml = '';
+  if (judged.length) {
+    const flip = judged.filter(c => (c.recall > 0) !== (c.ctx_recall > 0));
+    const partial = judged.filter(c => !flip.includes(c) && Math.abs(c.recall - c.ctx_recall) > 1e-9);
+    const agree = judged.length - flip.length - partial.length;
+    judgeHtml = `<div class="box"><b>A · Code vs LLM judge, inside the "After" run</b> (${esc(runName(B))})<br>
+        Agree exactly <b>${agree}</b> · differ in amount <b>${partial.length}</b> · opposite verdict <b>${flip.length}</b> (of ${judged.length})
+        ${A.cases.some(c => c.ctx_recall != null) ? '' : `<br><span class="m">The "Before" run has no judge scores, so judge scores can't be compared before vs after.</span>`}</div>
+      <div class="group"><h3>Opposite verdict (${flip.length}) <span style="font-weight:400">· one says 0, the other says above 0</span></h3>${flip.length ? flip.map(judgeRow).join('') : '<p class="empty">None.</p>'}</div>
+      <div class="group"><h3>Differ in amount (${partial.length}) <span style="font-weight:400">· both above 0, different scores</span></h3>${partial.length ? partial.map(judgeRow).join('') : '<p class="empty">None.</p>'}</div>
+      <p class="kv" style="margin-top:16px"><b>B · Before vs after, by code score</b></p>`;
+  }
+  $('#groups').innerHTML = judgeHtml + chipsHtml + GROUPS.map(g => {
+    const items = buckets[g.key];
+    const rows = items.length ? items.map(({ a, b }) => {
+      const info = D.cases[b.id] || {};
+      const flags = [];
+      if (docsKey(a) !== docsKey(b)) flags.push('retrieved pages changed');
+      if (step1Key(a) !== null && step1Key(b) !== null && step1Key(a) !== step1Key(b)) flags.push('Step 1 changed');
+      else if (step1Key(a) === null && step1Key(b) !== null) flags.push('Step 1 added');
+      const lab = b.label || a.label;
+      if (lab) flags.push('label: ' + lab);
+      return `<button type="button" class="row" data-case="${esc(b.id)}"${b.id === state.caseId ? ' aria-current="true"' : ''}>
+        <span class="id"><span class="ic-${g.key}" aria-hidden="true">${g.icon}</span> ${esc(short(b.id))}</span>
+        <span class="q" title="${esc(info.question)}">${esc(info.question)}</span>
+        <span class="sc">code recall ${pct(a.recall)} → ${pct(b.recall)} · MRR ${pct(a.mrr)} → ${pct(b.mrr)}</span>
+        ${flags.length ? `<span class="flags">${esc(flags.join(' · '))}</span>` : ''}</button>`;
+    }).join('') : `<p class="empty">None.</p>`;
+    const head = `${g.label} (${items.length}) <span style="font-weight:400">· ${g.desc}</span>`;
+    return g.key === 'same'
+      ? `<details class="group"><summary><h3 style="display:inline">${head}</h3></summary>${rows}</details>`
+      : `<div class="group"><h3>${head}</h3>${rows}</div>`;
+  }).join('');
+  $('#groups').querySelectorAll('.row').forEach(el => el.onclick = () => {
+    state.caseId = el.dataset.case;
+    renderCompare(); renderCase();
+    $('#case-card').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+  if (state.caseId && !B.cases.some(c => c.id === state.caseId)) state.caseId = null;
+  renderCase();
+}
+
+/* ---------- 3. Case ---------- */
+function step1Html(c, info) {
+  if (!c.step1) return `<div class="box">No Step 1 in this retriever: it searches all reports.</div>`;
+  const s = c.step1;
+  let verdict;
+  if (!s.reports.length) verdict = `<span class="warn">⚠ No filter ran: searched all reports</span>`;
+  else if (s.reports.includes(info.gold_doc_name)) verdict = `<span class="ok">✓ Gold report allowed</span> (${s.reports.length} report${s.reports.length > 1 ? 's' : ''} kept)`;
+  else verdict = `<span class="bad">✗ Gold report filtered out</span>`;
+  return `<div class="box"><b>Step 1</b> · company: ${s.companies.length ? esc(s.companies.join(', ')) : '<i>none found</i>'}
+    · years: ${s.years.length ? esc(s.years.join(', ')) : '<i>none</i>'}<br>${verdict}
+    ${s.reports.length ? `<div class="kv">${esc(s.reports.join(', '))}</div>` : ''}</div>`;
+}
+
+// Same rule as run_eval.score_ir: a page is gold if it is the same PAGE, even under another question's doc_id.
+const pageKey = id => { const p = D.pages[id]; return p ? `${p.doc_name}|${p.page}` : id; };
+
+function retrievedHtml(c, info) {
+  const gold = new Set(info.gold_doc_ids.map(pageKey));
+  return `<ol class="ret">${c.retrieved.map(x => {
+    const p = D.pages[x.doc_id] || {};
+    let tag;
+    if (gold.has(pageKey(x.doc_id))) tag = `<span class="ok">✓ gold page</span>`;
+    else if (x.doc_name === info.gold_doc_name) tag = `<span class="warn">≈ right report, wrong page</span>`;
+    else tag = `<span class="bad">✗ other report</span>`;
+    return `<li><b>${esc(x.doc_name)}</b> · page ${esc(p.page ?? '?')} · ${tag}
+      <details><summary>page text</summary><div class="snip">${esc(p.text || '(not in corpus)')}</div></details></li>`;
+  }).join('')}</ol>`;
+}
+
+function colHtml(run, c, info) {
+  return `<div class="col"><h3>${esc(runName(run))}</h3>
+    <div class="kv"><b>Code</b> (page match) · recall <b>${pct(c.recall)}</b> · MRR <b>${pct(c.mrr)}</b> · precision <b>${pct(c.precision)}</b></div>
+    ${c.ctx_recall != null ? `<div class="box"><b>LLM judge</b> (facts in chunks) · ctx_recall <b>${pct(c.ctx_recall)}</b> · ctx_precision <b>${pct(c.ctx_precision)}</b>
+      ${(c.recall > 0) !== (c.ctx_recall > 0) ? `<br><span class="warn">⚠ Code and judge disagree</span>` : ''}
+      <details><summary>Judge's reason (recall)</summary><div class="snip">${esc(c.ctx_recall_reason)}</div></details>
+      <details><summary>Judge's reason (precision)</summary><div class="snip">${esc(c.ctx_precision_reason)}</div></details></div>` : ''}
+    ${step1Html(c, info)}
+    <div class="kv"><b>Retrieved</b></div>${retrievedHtml(c, info)}
+    ${c.label ? `<p class="kv">Label: <b>${esc(c.label)}</b></p>` : ''}
+    ${c.notes ? `<p class="note">${esc(c.notes)}</p>` : ''}</div>`;
+}
+
+function renderCase() {
+  const id = state.caseId;
+  if (!id) { $('#case').innerHTML = `<p class="empty">Click a case in Compare to read it here.</p>`; return; }
+  const info = D.cases[id], A = byId[state.a], B = byId[state.b];
+  const ca = A.cases.find(c => c.id === id), cb = B.cases.find(c => c.id === id);
+  const gold = info.gold_doc_ids.map(g => {
+    const p = D.pages[g] || {};
+    return `<details><summary>Gold page: <b>${esc(info.gold_doc_name)}</b> · page ${esc(p.page ?? '?')}</summary><div class="snip">${esc(p.text || '')}</div></details>`;
+  }).join('');
+  $('#case').innerHTML = `
+    <div class="kv"><b>${esc(short(id))}</b> <span class="pill">${esc(info.type)}</span> <span class="pill">${esc(info.split)}</span></div>
+    <p class="q-full">${esc(info.question)}</p>
+    <p class="kv">Expected answer: <b>${esc(info.expected)}</b></p>
+    ${gold}
+    <div class="cols">${A.id === B.id ? colHtml(B, cb, info) : colHtml(A, ca, info) + colHtml(B, cb, info)}</div>`;
+}
+
+/* ---------- init ---------- */
+$('#sub').textContent = `${D.runs.length} runs · generated ${D.generated} · rebuild with: python evals/dashboard.py`;
+renderMetricButtons(); renderLegend(); renderChart(); renderRunsTable();
+$('#run-a').onchange = e => setCompare(e.target.value, state.b);
+$('#run-b').onchange = e => { state.b = e.target.value; renderCompare(); };
+{
+  const last = D.runs[D.runs.length - 1];
+  const same = D.runs.filter(r => r.split === last.split);
+  const m = location.hash.match(/case=([\w]+)/); // e.g. dashboard.html#case=00799
+  if (m) state.caseId = m[1].startsWith('financebench_id_') ? m[1] : 'financebench_id_' + m[1];
+  setCompare((same[same.length - 2] || last).id, last.id);
+}
+let resizeTimer;
+window.addEventListener('resize', () => {
+  $('#tip').style.display = 'none';
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(renderChart, 120);
+});
+</script>
+</body>
+</html>
